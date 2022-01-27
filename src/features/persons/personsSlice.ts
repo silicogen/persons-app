@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
-import { fetchCount } from './personsAPI';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
+import { smallUrl } from './urls';
+import axios from 'axios';
 
 export interface CounterState {
   value: number;
@@ -14,28 +15,26 @@ const initialState: CounterState = {
 
 export const incrementAsync = createAsyncThunk(
   'persons/fetchCount',
-  async (amount: number) => {
-    const response = await fetchCount(amount);
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
+  async () => {
+    const r = await axios.get(smallUrl);
+    return r.data.length;
   }
 );
-
 
 export const counterSlice = createSlice({
   name: 'persons',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
   },
   extraReducers: (builder) => {
     builder
       .addCase(incrementAsync.pending, (state) => {
         state.status = 'loading';
+        state.value = 0;
       })
       .addCase(incrementAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.value += action.payload;
+        state.value = action.payload;
       })
   },
 });

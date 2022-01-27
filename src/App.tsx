@@ -1,7 +1,5 @@
-import React from 'react';
-import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
-import { Persons as Persons } from './features/persons/Persons';
+import { Persons } from './features/persons/Persons';
 import './App.css';
 
 function App() {
