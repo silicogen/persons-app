@@ -3,12 +3,12 @@ import { RootState } from '../../app/store';
 import { smallUrl } from './urls';
 import axios from 'axios';
 
-export interface CounterState {
+export interface PersonsState {
   value: number;
   status: 'idle' | 'loading' | 'failed';
 }
 
-const initialState: CounterState = {
+const initialState: PersonsState = {
   value: 0,
   status: 'idle',
 };

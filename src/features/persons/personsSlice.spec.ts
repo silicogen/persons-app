@@ -1,10 +1,10 @@
 import counterReducer, {
-  CounterState,
+  PersonsState,
 
 } from './personsSlice';
 
 describe('counter reducer', () => {
-  const initialState: CounterState = {
+  const initialState: PersonsState = {
     value: 3,
     status: 'idle',
   };
