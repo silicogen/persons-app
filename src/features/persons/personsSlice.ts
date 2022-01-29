@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  createEntityAdapter
+} from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { smallUrl } from './urls';
 import axios from 'axios';
@@ -8,18 +12,19 @@ export interface PersonsState {
   status: 'idle' | 'loading' | 'failed';
 }
 
-const initialState: PersonsState = {
-  value: 0,
-  status: 'idle',
-};
-
 export const incrementAsync = createAsyncThunk(
   'persons/fetchCount',
   async () => {
     const r = await axios.get(smallUrl);
-    return r.data.length;
+    return r.data;
   }
 );
+
+const personsAdapter = createEntityAdapter();
+const initialState = personsAdapter.getInitialState({
+  status: 'idle',
+  value: 0
+});
 
 export const counterSlice = createSlice({
   name: 'persons',
@@ -30,15 +35,14 @@ export const counterSlice = createSlice({
     builder
       .addCase(incrementAsync.pending, (state) => {
         state.status = 'loading';
-        state.value = 0;
       })
       .addCase(incrementAsync.fulfilled, (state, action) => {
+        personsAdapter.setAll(state, action.payload)
         state.status = 'idle';
-        state.value = action.payload;
       })
   },
 });
 
-export const selectCount = (state: RootState) => state.persons.value;
+export const selectCount = (state: RootState) => state.persons.ids.length;
 
 export default counterSlice.reducer;
