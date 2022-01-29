@@ -24,7 +24,7 @@ export function Persons() {
       >
         Fetch
       </button>
-      <span >{status === "loading" ? "loading" : null}</span>
+      <span >{status === "loading" && "loading"}</span>
     </div>
   </div>
 }
