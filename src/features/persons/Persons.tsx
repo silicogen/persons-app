@@ -1,12 +1,14 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
-  incrementAsync,
+  fetchPersons,
   selectCount,
+  selectPersons
 } from './personsSlice';
 import styles from './Persons.module.css';
 
 export function Persons() {
   const count = useAppSelector(selectCount);
+  const persons = useAppSelector(selectPersons);
   const status = useAppSelector(state => state.persons.status)
   const dispatch = useAppDispatch();
 
@@ -20,7 +22,7 @@ export function Persons() {
 
       <button
         className={styles.asyncButton}
-        onClick={() => dispatch(incrementAsync())}
+        onClick={() => dispatch(fetchPersons())}
       >
         Fetch
       </button>

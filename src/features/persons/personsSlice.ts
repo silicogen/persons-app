@@ -8,15 +8,14 @@ import { smallUrl } from './urls';
 import axios from 'axios';
 
 export interface PersonsState {
-  value: number;
   status: 'idle' | 'loading' | 'failed';
 }
 
-export const incrementAsync = createAsyncThunk(
-  'persons/fetchCount',
+export const fetchPersons = createAsyncThunk(
+  'persons/fetchPersons',
   async () => {
-    const r = await axios.get(smallUrl);
-    return r.data;
+    const response = await axios.get(smallUrl);
+    return response.data;
   }
 );
 
@@ -33,10 +32,10 @@ export const counterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(incrementAsync.pending, (state) => {
+      .addCase(fetchPersons.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(incrementAsync.fulfilled, (state, action) => {
+      .addCase(fetchPersons.fulfilled, (state, action) => {
         personsAdapter.setAll(state, action.payload)
         state.status = 'idle';
       })
@@ -44,5 +43,6 @@ export const counterSlice = createSlice({
 });
 
 export const selectCount = (state: RootState) => state.persons.ids.length;
+export const selectPersons = (state: RootState) => state.persons.entities;
 
 export default counterSlice.reducer;
