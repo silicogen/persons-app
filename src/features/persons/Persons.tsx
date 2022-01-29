@@ -5,10 +5,10 @@ import {
   selectPersons
 } from './personsSlice';
 import styles from './Persons.module.css';
+import { PersonsTable } from './PersonsTable';
 
 export function Persons() {
   const count = useAppSelector(selectCount);
-  const persons = useAppSelector(selectPersons);
   const status = useAppSelector(state => state.persons.status)
   const dispatch = useAppDispatch();
 
@@ -27,6 +27,8 @@ export function Persons() {
         Fetch
       </button>
       <span >{status === "loading" && "loading"}</span>
+
     </div>
+    <PersonsTable />
   </div>
 }
