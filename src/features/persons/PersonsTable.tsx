@@ -6,7 +6,12 @@ import { PersonsTH } from "./PersonsTH";
 export const PersonsTable: React.FC = () => {
     const persons = useAppSelector(selectPersons);
     return <>
-        <table>
+        <table
+            style={{
+                whiteSpace: "nowrap",
+                textAlign: "left"
+            }}
+        >
             <thead>
                 <tr>
                     {/* <th >_id</th> */}
