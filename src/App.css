@@ -30,11 +30,11 @@
   flex-direction: column;
   /* align-items: center; */
   /* justify-content: center; */
-  /* font-size: calc(10px + 2vmin);b */
+  /* font-size: calc(10px + 2vmin); */
 }
 
 .App-link {
-  /* color: rgb(112, 76, 182); */
+  color: rgb(112, 76, 182);
 }
 
 @keyframes App-logo-float {
