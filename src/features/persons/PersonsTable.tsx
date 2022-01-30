@@ -2,16 +2,12 @@
 import { useAppSelector } from "../../app/hooks";
 import { Person, selectPersons } from "./personsSlice";
 import { PersonsTH } from "./PersonsTH";
+import styles from "./Persons.module.css"
 
 export const PersonsTable: React.FC = () => {
     const persons = useAppSelector(selectPersons);
     return <>
-        <table
-            style={{
-                whiteSpace: "nowrap",
-                textAlign: "left"
-            }}
-        >
+        <table className={styles.table}>
             <thead>
                 <tr>
                     {/* <th >_id</th> */}
