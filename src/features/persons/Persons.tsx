@@ -4,6 +4,9 @@ import {
   selectCount,
   selectPersons
 } from './personsSlice';
+import {
+  smallUrl, largeUrl
+} from "./urls"
 import styles from './Persons.module.css';
 import { PersonsTable } from './PersonsTable';
 
@@ -21,11 +24,19 @@ export function Persons() {
     <div className={styles.row}>
 
       <button
-        className={styles.asyncButton}
-        onClick={() => dispatch(fetchPersons())}
+        // className={styles.asyncButton}
+        onClick={() => dispatch(fetchPersons(smallUrl))}
       >
-        Fetch
+        Fetch small
       </button>
+
+      <button
+        // className={styles.asyncButton}
+        onClick={() => dispatch(fetchPersons(largeUrl))}
+      >
+        Fetch large
+      </button>
+
       <span >{status === "loading" && "loading"}</span>
 
     </div>

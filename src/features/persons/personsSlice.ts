@@ -30,8 +30,8 @@ export interface PersonsAdditionalStateProps {
 
 export const fetchPersons = createAsyncThunk(
   'persons/fetchPersons',
-  async () => {
-    const response = await axios.get(smallUrl);
+  async (url: string) => {
+    const response = await axios.get(url);
     return response.data;
   }
 );
