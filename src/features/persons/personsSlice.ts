@@ -23,10 +23,6 @@ export interface Person {
   description: string
 }
 
-export interface PersonsAdditionalStateProps {
-  status: 'idle' | 'loading' | 'failed';
-}
-
 export const fetchPersons = createAsyncThunk(
   'persons/fetchPersons',
   async (url: string) => {
@@ -38,6 +34,10 @@ export const fetchPersons = createAsyncThunk(
 const personsAdapter = createEntityAdapter<Person>(
   { selectId: p => p.id }
 );
+
+export interface PersonsAdditionalStateProps {
+  status: 'idle' | 'loading' | 'failed';
+};
 
 const initialState = personsAdapter.getInitialState<PersonsAdditionalStateProps>({
   status: 'idle',
