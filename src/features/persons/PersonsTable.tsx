@@ -1,6 +1,6 @@
 
 import { useAppSelector } from "../../app/hooks";
-import { Person, selectPersons } from "./personsSlice";
+import { selectPersons } from "./personsSlice";
 import { PersonsTH } from "./PersonsTH";
 import styles from "./Persons.module.css"
 
