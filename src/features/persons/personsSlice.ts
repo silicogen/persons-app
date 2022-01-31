@@ -2,7 +2,8 @@ import {
   createAsyncThunk,
   createSlice,
   createEntityAdapter,
-  EntityId
+  EntityId,
+  PayloadAction
 } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import axios from 'axios';
@@ -48,6 +49,9 @@ export const counterSlice = createSlice({
   name: 'persons',
   initialState,
   reducers: {
+    sort: (state, action: PayloadAction<number>) => {
+      state.ids.sort();
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -55,7 +59,7 @@ export const counterSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchPersons.fulfilled, (state, action) => {
-        personsAdapter.setAll(state, action.payload)
+        personsAdapter.setAll(state, action.payload);
         state.status = 'idle';
       })
   },
@@ -68,6 +72,8 @@ const personsSelectors = personsAdapter.getSelectors<RootState>(state => state.p
 export const selectPersonsIds = personsSelectors.selectIds;
 export const selectPersonsEntities = personsSelectors.selectEntities;
 export const selectPersonById =
-  (state: RootState) => (id: EntityId) => personsSelectors.selectById(state, id);
+  (state: RootState) =>
+    (id: EntityId) =>
+      personsSelectors.selectById(state, id);
 
 export default counterSlice.reducer;
