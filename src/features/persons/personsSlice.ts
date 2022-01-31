@@ -64,6 +64,7 @@ export const selectCount = (state: RootState) => state.persons.ids.length;
 
 const personsSelectors = personsAdapter.getSelectors<RootState>(state => state.persons)
 
-export const selectPersons = personsSelectors.selectAll;
+export const selectPersonsIds = personsSelectors.selectIds;
+export const selectPersonsEntities = personsSelectors.selectEntities;
 
 export default counterSlice.reducer;

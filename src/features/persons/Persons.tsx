@@ -1,8 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   fetchPersons,
-  selectCount,
-  selectPersons
+  selectCount
 } from './personsSlice';
 import {
   smallUrl, largeUrl
