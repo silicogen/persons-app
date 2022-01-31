@@ -2,7 +2,8 @@
 import { useAppSelector } from "../../app/hooks";
 import {
     selectPersonsIds,
-    selectPersonsEntities
+    selectPersonsEntities,
+    selectPersonById
 } from "./personsSlice";
 import { PersonsTH } from "./PersonsTH";
 import styles from "./Persons.module.css"
@@ -10,6 +11,7 @@ import styles from "./Persons.module.css"
 export const PersonsTable: React.FC = () => {
     const personsIds = useAppSelector(selectPersonsIds);
     const personsEntities = useAppSelector(selectPersonsEntities);
+    const personById = useAppSelector(selectPersonById);
     return <>
         <table className={styles.table}>
             <thead>
@@ -30,7 +32,7 @@ export const PersonsTable: React.FC = () => {
             <tbody>{
 
                 personsIds.map(id => {
-                    const r = personsEntities[id]!;
+                    const r = personById(id)!;
                     return <tr
                         key={r.id}
                     // onClick={() => persons.toggleSelect(r)}

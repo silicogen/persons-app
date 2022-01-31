@@ -1,7 +1,8 @@
 import {
   createAsyncThunk,
   createSlice,
-  createEntityAdapter
+  createEntityAdapter,
+  EntityId
 } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import axios from 'axios';
@@ -66,5 +67,7 @@ const personsSelectors = personsAdapter.getSelectors<RootState>(state => state.p
 
 export const selectPersonsIds = personsSelectors.selectIds;
 export const selectPersonsEntities = personsSelectors.selectEntities;
+export const selectPersonById =
+  (state: RootState) => (id: EntityId) => personsSelectors.selectById(state, id);
 
 export default counterSlice.reducer;
