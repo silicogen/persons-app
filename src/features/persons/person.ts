@@ -27,7 +27,7 @@ export interface Columns {
     [key: string]: Column;
 }
 
-export const columns: Columns = {
+export const columnsMap: Columns = {
     id: {
         compare: (p1: Person, p2: Person) =>
             p1.id - p2.id,
@@ -98,3 +98,5 @@ export const columns: Columns = {
         value: (p: Person) => p.description,
     },
 }
+
+export const columns = Object.values(columnsMap);

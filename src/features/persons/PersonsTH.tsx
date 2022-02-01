@@ -11,9 +11,7 @@ export const PersonsTH: React.FC<Props> = (
     const orderClick: React.MouseEventHandler = () => {
         dispatch(sortByColumn(column))
     }
-    return <th
-        onClick={orderClick}
-    >
+    return <th onClick={orderClick}>
         {column.title}
     </th>
 }

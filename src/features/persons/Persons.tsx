@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   fetchPersons,
-  selectCount
+  selectTotal
 } from './personsSlice';
 import {
   smallUrl, largeUrl
@@ -10,7 +10,7 @@ import styles from './Persons.module.css';
 import { PersonsTable } from './PersonsTable';
 
 export function Persons() {
-  const count = useAppSelector(selectCount);
+  const count = useAppSelector(selectTotal);
   const status = useAppSelector(state => state.persons.status)
   const dispatch = useAppDispatch();
 

@@ -61,15 +61,10 @@ export const {
   sortByColumn
 } = personsSlice.actions;
 
-export const selectCount = (state: RootState) => state.persons.ids.length;
+export const personsSelectors = personsAdapter.getSelectors<RootState>(state => state.persons)
 
-const personsSelectors = personsAdapter.getSelectors<RootState>(state => state.persons)
+export const selectTotal = personsSelectors.selectTotal;
 
-export const selectPersonsIds = personsSelectors.selectIds;
-export const selectPersonsEntities = personsSelectors.selectEntities;
-export const selectPersonById =
-  (state: RootState) =>
-    (id: EntityId) =>
-      personsSelectors.selectById(state, id);
+export const selectVisiblePersons = personsSelectors.selectAll;
 
 export default personsSlice.reducer;
