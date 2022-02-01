@@ -1,18 +1,19 @@
 import { useDispatch } from "react-redux"
 import { sortByColumn } from "./personsSlice"
+import { Column } from "./person"
 interface Props {
-    columnName: string;
+    column: Column;
 }
 
 export const PersonsTH: React.FC<Props> = (
-    { columnName }) => {
+    { column }) => {
     const dispatch = useDispatch();
     const orderClick: React.MouseEventHandler = () => {
-        dispatch(sortByColumn(columnName))
+        dispatch(sortByColumn(column))
     }
     return <th
         onClick={orderClick}
     >
-        {columnName}
+        {column.title}
     </th>
 }

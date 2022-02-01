@@ -7,6 +7,7 @@ import {
 } from "./personsSlice";
 import { PersonsTH } from "./PersonsTH";
 import styles from "./Persons.module.css"
+import { Column, columns } from "./person";
 
 export const PersonsTable: React.FC = () => {
     const personsIds = useAppSelector(selectPersonsIds);
@@ -16,8 +17,8 @@ export const PersonsTable: React.FC = () => {
         <table className={styles.table}>
             <thead>
                 <tr>
-                    {/* <th >_id</th> */}
-                    <PersonsTH columnName="id" />
+                    {((columns as any).values() as Column[]).map(c => <PersonsTH column={c} />)}
+                    {/* <PersonsTH column="id" />
                     <PersonsTH columnName="firstName" />
                     <PersonsTH columnName="lastName" />
                     <PersonsTH columnName="email" />
@@ -26,7 +27,7 @@ export const PersonsTable: React.FC = () => {
                     <PersonsTH columnName="city" />
                     <PersonsTH columnName="state" />
                     <PersonsTH columnName="zip" />
-                    <PersonsTH columnName="description" />
+                    <PersonsTH columnName="description" /> */}
                 </tr>
             </thead>
             <tbody>{

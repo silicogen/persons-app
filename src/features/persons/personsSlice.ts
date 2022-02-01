@@ -8,22 +8,9 @@ import {
 import { RootState } from '../../app/store';
 import axios from 'axios';
 
-export interface Address {
-  streetAddress: string,
-  city: string,
-  state: string,
-  zip: string,
-}
+import { Column, Person } from './person';
 
-export interface Person {
-  id: number,
-  firstName: string,
-  lastName: string,
-  email: string,
-  phone: string,
-  address: Address,
-  description: string
-}
+
 
 export const fetchPersons = createAsyncThunk(
   'persons/fetchPersons',
@@ -49,16 +36,12 @@ export const personsSlice = createSlice({
   name: 'persons',
   initialState,
   reducers: {
-    sortByColumn: (state, action: PayloadAction<string>) => {
-      const columnName = action.payload;
-
-      const compareFn = (a: EntityId, b: EntityId) => {
-        const entA = state.entities[a]!;
-        const entB = state.entities[b]!;
-        return entA.firstName
-          .localeCompare(entB.firstName);
-      }
-
+    sortByColumn: (state, action: PayloadAction<Column>) => {
+      const compareFn = (a: EntityId, b: EntityId) =>
+        action.payload.compare(
+          state.entities[a]!,
+          state.entities[b]!
+        );
       state.ids.sort(compareFn);
     }
   },
