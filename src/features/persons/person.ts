@@ -99,4 +99,6 @@ export const columnsMap: Columns = {
     },
 }
 
+export type ColumnKey = keyof Columns;
+
 export const columns = Object.values(columnsMap);

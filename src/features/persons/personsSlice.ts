@@ -8,7 +8,7 @@ import {
 import { RootState } from '../../app/store';
 import axios from 'axios';
 
-import { Column, Person } from './person';
+import { Column, ColumnKey, Person } from './person';
 
 
 
@@ -24,12 +24,25 @@ const personsAdapter = createEntityAdapter<Person>(
   { selectId: p => p.id }
 );
 
+const orderSymbols = {
+  source: "",
+  ascending: "↓",
+  descending: "↑",
+}
+
+interface Order {
+  direction: keyof typeof orderSymbols;
+  column: ColumnKey;
+}
+
 export interface PersonsAdditionalStateProps {
   status: 'idle' | 'loading' | 'failed';
+  order: keyof typeof orderSymbols;
 };
 
 const initialState = personsAdapter.getInitialState<PersonsAdditionalStateProps>({
   status: 'idle',
+  order: "source"
 });
 
 export const personsSlice = createSlice({
@@ -42,7 +55,20 @@ export const personsSlice = createSlice({
           state.entities[a]!,
           state.entities[b]!
         );
-      state.ids.sort(compareFn);
+      const ids = state.ids;
+      switch (state.order) {
+        case "source":
+          ids.sort(compareFn);
+          state.order = "ascending";
+          break;
+        case "ascending":
+          ids.sort((a, b) => -compareFn(a, b))
+          state.order = "descending";
+          break;
+        default:
+          ids.sort(compareFn);
+          state.order = "source";
+      }
     }
   },
   extraReducers: (builder) => {
@@ -64,6 +90,9 @@ export const {
 export const personsSelectors = personsAdapter.getSelectors<RootState>(state => state.persons)
 
 export const selectTotal = personsSelectors.selectTotal;
+
+export const selectOrderSymbol =  (state: RootState) =>
+  orderSymbols[state.persons.order]
 
 export const selectVisiblePersons = personsSelectors.selectAll;
 
