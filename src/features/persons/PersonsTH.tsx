@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { sortByColumn, selectOrderSymbol } from "./personsSlice"
-import { Column } from "./person"
+import { Column } from "./columns"
 import { useAppSelector } from "../../app/hooks";
 interface Props {
     column: Column;

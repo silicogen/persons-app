@@ -8,8 +8,8 @@ import {
 import { RootState } from '../../app/store';
 import axios from 'axios';
 
-import { Column, ColumnKey, Person } from './person';
-
+import { Person } from './person';
+import { Column, ColumnKey } from './columns';
 
 
 export const fetchPersons = createAsyncThunk(
@@ -91,7 +91,7 @@ export const personsSelectors = personsAdapter.getSelectors<RootState>(state => 
 
 export const selectTotal = personsSelectors.selectTotal;
 
-export const selectOrderSymbol =  (state: RootState) =>
+export const selectOrderSymbol = (state: RootState) =>
   orderSymbols[state.persons.order]
 
 export const selectVisiblePersons = personsSelectors.selectAll;

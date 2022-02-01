@@ -5,7 +5,7 @@ import {
 } from "./personsSlice";
 import { PersonsTH } from "./PersonsTH";
 import styles from "./Persons.module.css"
-import { columns } from "./person";
+import { columns } from "./columns";
 
 export const PersonsTable: React.FC = () => {
     const persons = useAppSelector(selectVisiblePersons);
