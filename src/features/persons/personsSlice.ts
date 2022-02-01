@@ -9,7 +9,7 @@ import { RootState } from '../../app/store';
 import axios from 'axios';
 
 import { Person } from './person';
-import { Column, ColumnKey } from './columns';
+import { Column } from './columns';
 
 
 export const fetchPersons = createAsyncThunk(
@@ -32,7 +32,7 @@ const orderSymbols = {
 
 interface Order {
   direction: keyof typeof orderSymbols;
-  column: ColumnKey;
+  columnId: string;
 }
 
 export interface PersonsAdditionalStateProps {
