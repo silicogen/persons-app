@@ -45,13 +45,22 @@ const initialState = personsAdapter.getInitialState<PersonsAdditionalStateProps>
   status: 'idle',
 });
 
-export const counterSlice = createSlice({
+export const personsSlice = createSlice({
   name: 'persons',
   initialState,
   reducers: {
-    sort: (state, action: PayloadAction<number>) => {
-      state.ids.sort();
-    },
+    sortByColumn: (state, action: PayloadAction<string>) => {
+      const columnName = action.payload;
+
+      const compareFn = (a: EntityId, b: EntityId) => {
+        const entA = state.entities[a]!;
+        const entB = state.entities[b]!;
+        return entA.firstName
+          .localeCompare(entB.firstName);
+      }
+
+      state.ids.sort(compareFn);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -65,6 +74,10 @@ export const counterSlice = createSlice({
   },
 });
 
+export const {
+  sortByColumn
+} = personsSlice.actions;
+
 export const selectCount = (state: RootState) => state.persons.ids.length;
 
 const personsSelectors = personsAdapter.getSelectors<RootState>(state => state.persons)
@@ -76,4 +89,4 @@ export const selectPersonById =
     (id: EntityId) =>
       personsSelectors.selectById(state, id);
 
-export default counterSlice.reducer;
+export default personsSlice.reducer;
