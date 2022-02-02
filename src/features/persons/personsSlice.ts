@@ -36,21 +36,23 @@ export interface PersonsAdditionalStateProps {
   orderColumnId?: string;
 };
 
-const initialState = personsAdapter.getInitialState<PersonsAdditionalStateProps>({
-  status: 'idle',
-  order: "source"
-});
+const initialState = personsAdapter
+  .getInitialState<PersonsAdditionalStateProps>({
+    status: 'idle',
+    order: "source"
+  });
 
 export const personsSlice = createSlice({
   name: 'persons',
   initialState,
   reducers: {
     sortByColumn: (state, action: PayloadAction<Column>) => {
+      if (state.ids.length === 0) return;
       const person = (id: EntityId) => state.entities[id]!;
       const column = action.payload;
 
       const compareAscending = (a: EntityId, b: EntityId) =>
-      column.compare(person(a), person(b));
+        column.compare(person(a), person(b));
 
       const compareDescending = (a: EntityId, b: EntityId) =>
         -compareAscending(a, b);
