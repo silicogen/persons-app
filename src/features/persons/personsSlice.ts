@@ -55,6 +55,7 @@ export const personsSlice = createSlice({
   reducers: {
     filter(state, action: PayloadAction<string>) {
       state.filterStr = action.payload;
+      state.pageIndex = 0;
     },
     prevPage(state) {
       state.pageIndex--;
@@ -132,7 +133,14 @@ export const selectOrderSymbol = (columnId: string) =>
       && state.persons.order !== "source"
       ? orderSymbols[state.persons.order] : "";
 
-export const selectVisiblePersons = (state: RootState) => {
+export const selectVisiblePersons = (state: RootState) =>
+  selectFilteredPersons(state)
+    .slice(
+      state.persons.pageIndex * 10,
+      (state.persons.pageIndex + 1) * 10
+    );
+
+export const selectFilteredPersons = (state: RootState) => {
   const filter = state.persons.filterStr.toUpperCase();
   return personsSelectors
     .selectAll(state)
@@ -144,15 +152,16 @@ export const selectVisiblePersons = (state: RootState) => {
       )
       .length > 0
     )
-    .slice(
-      state.persons.pageIndex * 10,
-      (state.persons.pageIndex + 1) * 10
-    );
 }
 
-export const selectPagesCount = (state: RootState) =>
-  selectTotal(state) === 0 ? 0 :
-    Math.floor(selectTotal(state) / 10) + 1;
+export const selectFilteredTotal = (state: RootState) =>
+  selectFilteredPersons(state).length;
+
+export const selectPagesCount = (state: RootState) => {
+  const count = selectFilteredTotal(state)
+  return count === 0 ? 0 :
+    Math.floor(count / 10) + 1;
+}
 
 export const selectFilterDisabled = (filterStr: string) =>
   (state: RootState) =>
