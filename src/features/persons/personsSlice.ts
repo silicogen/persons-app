@@ -37,19 +37,27 @@ export interface PersonsAdditionalStateProps {
   status: 'idle' | 'loading' | 'failed';
   order: keyof typeof orderSymbols;
   orderColumnId?: string;
+  pageIndex: number;
 };
 
 const initialState = personsAdapter
   .getInitialState<PersonsAdditionalStateProps>({
     status: 'idle',
-    order: "source"
+    order: "source",
+    pageIndex: 0
   });
 
 export const personsSlice = createSlice({
   name: 'persons',
   initialState,
   reducers: {
-    sortByColumn: (state, action: PayloadAction<Column>) => {
+    prevPage(state) {
+      state.pageIndex--;
+    },
+    nextPage(state) {
+      state.pageIndex++;
+    },
+    sortByColumn(state, action: PayloadAction<Column>) {
       if (state.ids.length === 0) return;
       const person = (id: EntityId) => state.entities[id]!;
       const column = action.payload;
@@ -93,12 +101,15 @@ export const personsSlice = createSlice({
         personsAdapter.setAll(state, action.payload);
         state.status = 'idle';
         state.order = "source";
+        state.pageIndex = 0;
       })
   }
 });
 
 export const {
-  sortByColumn
+  sortByColumn,
+  prevPage,
+  nextPage
 } = personsSlice.actions;
 
 export const personsSelectors = personsAdapter
@@ -112,6 +123,22 @@ export const selectOrderSymbol = (columnId: string) =>
       && state.persons.order !== "source"
       ? orderSymbols[state.persons.order] : "";
 
-export const selectVisiblePersons = personsSelectors.selectAll;
+export const selectVisiblePersons = (state: RootState) => personsSelectors
+  .selectAll(state)
+  .slice(state.persons.pageIndex * 10, (state.persons.pageIndex + 1) * 10);
+
+export const selectPagesCount = (state: RootState) =>
+  selectTotal(state) === 0 ? 0 :
+    Math.floor(selectTotal(state) / 10) + 1;
+
+export const selectCurentPage = (state: RootState) =>
+  selectTotal(state) === 0 ? 0 :
+    state.persons.pageIndex + 1;
+
+export const selectAllowPrevPage = (state: RootState) =>
+  state.persons.pageIndex > 0;
+
+export const selectAllowNextPage = (state: RootState) =>
+  state.persons.pageIndex < selectPagesCount(state) - 1;
 
 export default personsSlice.reducer;

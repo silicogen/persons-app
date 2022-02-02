@@ -1,12 +1,14 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   fetchPersonsSmall,
-  fetchPersonsLarge
+  fetchPersonsLarge,
+  selectTotal
 } from './personsSlice';
 import styles from './Persons.module.css';
 
 export function PersonsFetch() {
   const status = useAppSelector(state => state.persons.status)
+  const count = useAppSelector(selectTotal);
   const dispatch = useAppDispatch();
 
   return <>
@@ -23,7 +25,11 @@ export function PersonsFetch() {
         Fetch large
       </button>
 
-      <span >{status === "loading" && "loading"}</span>
+      <span >{
+        status === "loading"
+          ? "loading"
+          : `loaded ${count} persons`}
+      </span>
 
     </div>
   </>
