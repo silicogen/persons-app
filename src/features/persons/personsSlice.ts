@@ -71,6 +71,8 @@ export const personsSlice = createSlice({
       const compareDefault = (a: EntityId, b: EntityId) =>
         defaultComparier(person(a), person(b));
 
+      state.pageIndex = 0;
+
       if (state.orderColumnId !== column.id) {
         state.orderColumnId = column.id;
         state.order = "source";
