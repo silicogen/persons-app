@@ -5,11 +5,13 @@ import {
   selectTotal
 } from './personsSlice';
 import styles from './Persons.module.css';
+import { useEffect } from 'react';
 
 export function PersonsFetch() {
   const status = useAppSelector(state => state.persons.status)
   const count = useAppSelector(selectTotal);
   const dispatch = useAppDispatch();
+  useEffect(() => { dispatch(fetchPersonsSmall) }, [])
 
   return <>
     <div className={styles.row}>

@@ -8,7 +8,7 @@ import {
 import { RootState } from '../../app/store';
 import axios from 'axios';
 import { Person } from './person';
-import { Column, defaultComparier } from './columns';
+import { Column, defaultComparier, columnsMap } from './columns';
 import { largeUrl, smallUrl } from './urls';
 
 
@@ -38,19 +38,24 @@ export interface PersonsAdditionalStateProps {
   order: keyof typeof orderSymbols;
   orderColumnId?: string;
   pageIndex: number;
+  filterStr: string;
 };
 
 const initialState = personsAdapter
   .getInitialState<PersonsAdditionalStateProps>({
     status: 'idle',
     order: "source",
-    pageIndex: 0
+    pageIndex: 0,
+    filterStr: ""
   });
 
 export const personsSlice = createSlice({
   name: 'persons',
   initialState,
   reducers: {
+    filter(state, action: PayloadAction<string>) {
+      state.filterStr = action.payload;
+    },
     prevPage(state) {
       state.pageIndex--;
     },
@@ -109,7 +114,9 @@ export const personsSlice = createSlice({
 });
 
 export const {
+  filter,
   sortByColumn,
+  filter: setFilter,
   prevPage,
   nextPage
 } = personsSlice.actions;
@@ -125,13 +132,31 @@ export const selectOrderSymbol = (columnId: string) =>
       && state.persons.order !== "source"
       ? orderSymbols[state.persons.order] : "";
 
-export const selectVisiblePersons = (state: RootState) => personsSelectors
-  .selectAll(state)
-  .slice(state.persons.pageIndex * 10, (state.persons.pageIndex + 1) * 10);
+export const selectVisiblePersons = (state: RootState) => {
+  const filter = state.persons.filterStr.toUpperCase();
+  return personsSelectors
+    .selectAll(state)
+    .filter(i => Object.values(columnsMap)
+      .filter(c => c
+        .valueStr(i)
+        .toUpperCase()
+        .includes(filter)
+      )
+      .length > 0
+    )
+    .slice(
+      state.persons.pageIndex * 10,
+      (state.persons.pageIndex + 1) * 10
+    );
+}
 
 export const selectPagesCount = (state: RootState) =>
   selectTotal(state) === 0 ? 0 :
     Math.floor(selectTotal(state) / 10) + 1;
+
+export const selectFilterDisabled = (filterStr: string) =>
+  (state: RootState) =>
+    state.persons.filterStr === filterStr;
 
 export const selectCurentPage = (state: RootState) =>
   selectTotal(state) === 0 ? 0 :

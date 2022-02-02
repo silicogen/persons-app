@@ -3,7 +3,7 @@ import { Person } from "./person";
 export interface Column {
     id: string;
     compare: (p1: Person, p2: Person) => number;
-    value: (p: Person) => string;
+    valueStr: (p: Person) => string;
     title: string;
 }
 
@@ -19,7 +19,7 @@ export const columnsMap: Columns = {
         id: "id",
         compare: defaultComparier,
         title: "ID",
-        value: (p: Person) => p.id.toString(),
+        valueStr: (p: Person) => p.id.toString(),
     },
 
     firstName: {
@@ -27,7 +27,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.firstName.localeCompare(p2.firstName),
         title: "First name",
-        value: (p: Person) => p.firstName,
+        valueStr: (p: Person) => p.firstName,
     },
 
     lastName: {
@@ -35,7 +35,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.lastName.localeCompare(p2.lastName),
         title: "Last name",
-        value: (p: Person) => p.lastName,
+        valueStr: (p: Person) => p.lastName,
     },
 
     email: {
@@ -43,7 +43,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.email.localeCompare(p2.email),
         title: "Email",
-        value: (p: Person) => p.email,
+        valueStr: (p: Person) => p.email,
     },
 
     phone: {
@@ -51,7 +51,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.phone.localeCompare(p2.phone),
         title: "Phone",
-        value: (p: Person) => p.phone,
+        valueStr: (p: Person) => p.phone,
     },
 
     streetAddress: {
@@ -59,7 +59,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.address.streetAddress.localeCompare(p2.address.streetAddress),
         title: "Street address",
-        value: (p: Person) => p.address.streetAddress,
+        valueStr: (p: Person) => p.address.streetAddress,
     },
 
     city: {
@@ -67,7 +67,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.address.city.localeCompare(p2.address.city),
         title: "City",
-        value: (p: Person) => p.address.city,
+        valueStr: (p: Person) => p.address.city,
     },
 
     state: {
@@ -75,7 +75,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.address.state.localeCompare(p2.address.state),
         title: "State",
-        value: (p: Person) => p.address.state,
+        valueStr: (p: Person) => p.address.state,
     },
 
     zip: {
@@ -83,7 +83,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.address.zip.localeCompare(p2.address.zip),
         title: "Sip",
-        value: (p: Person) => p.address.zip,
+        valueStr: (p: Person) => p.address.zip,
     },
 
     description: {
@@ -91,7 +91,7 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.description.localeCompare(p2.description),
         title: "Description",
-        value: (p: Person) => p.description,
+        valueStr: (p: Person) => p.description,
     },
 }
 

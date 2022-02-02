@@ -18,7 +18,7 @@ export const PersonsTable: React.FC = () => {
             </thead>
             <tbody>
                 {persons.map(p => <tr key={p.id}>
-                    {columns.map(c => <td> {c.value(p)}</td>)}
+                    {columns.map(c => <td> {c.valueStr(p)}</td>)}
                 </tr>)}
             </tbody>
         </table>
