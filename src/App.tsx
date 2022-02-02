@@ -1,4 +1,4 @@
-import { Counter } from './features/counter/Counter';
+// import { Counter } from './features/counter/Counter';
 import { Persons } from './features/persons/Persons';
 import './App.css';
 
