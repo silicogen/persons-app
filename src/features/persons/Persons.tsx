@@ -1,44 +1,11 @@
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import {
-  fetchPersons,
-  selectTotal
-} from './personsSlice';
-import {
-  smallUrl, largeUrl
-} from "./urls"
-import styles from './Persons.module.css';
 import { PersonsTable } from './PersonsTable';
+import { PersonsNav } from './PersonsNav';
+import { PersonsFetch } from './PersonsFetch';
 
 export function Persons() {
-  const count = useAppSelector(selectTotal);
-  const status = useAppSelector(state => state.persons.status)
-  const dispatch = useAppDispatch();
-
   return <div>
-    <div className={styles.row}>
-
-      <span className={styles.value}>{count}</span>
-
-    </div>
-    <div className={styles.row}>
-
-      <button
-        // className={styles.asyncButton}
-        onClick={() => dispatch(fetchPersons(smallUrl))}
-      >
-        Fetch small
-      </button>
-
-      <button
-        // className={styles.asyncButton}
-        onClick={() => dispatch(fetchPersons(largeUrl))}
-      >
-        Fetch large
-      </button>
-
-      <span >{status === "loading" && "loading"}</span>
-
-    </div>
+    <PersonsFetch />
+    <PersonsNav />
     <PersonsTable />
   </div>
 }
