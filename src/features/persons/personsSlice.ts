@@ -47,9 +47,10 @@ export const personsSlice = createSlice({
   reducers: {
     sortByColumn: (state, action: PayloadAction<Column>) => {
       const person = (id: EntityId) => state.entities[id]!;
+      const column = action.payload;
 
       const compareAscending = (a: EntityId, b: EntityId) =>
-        action.payload.compare(person(a), person(b));
+      column.compare(person(a), person(b));
 
       const compareDescending = (a: EntityId, b: EntityId) =>
         -compareAscending(a, b);
@@ -57,8 +58,8 @@ export const personsSlice = createSlice({
       const compareDefault = (a: EntityId, b: EntityId) =>
         defaultComparier(person(a), person(b));
 
-      if (state.orderColumnId !== action.payload.id) {
-        state.orderColumnId = action.payload.id;
+      if (state.orderColumnId !== column.id) {
+        state.orderColumnId = column.id;
         state.order = "source";
       }
 
