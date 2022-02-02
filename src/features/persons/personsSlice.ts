@@ -166,9 +166,8 @@ export const selectPagesCount = (state: RootState) => {
     Math.floor(count / 10) + 1;
 }
 
-export const selectFilterStrIsNew = (filterStr: string) =>
-  (state: RootState) =>
-    state.persons.filterStr !== filterStr;
+export const selectFilterStr = (state: RootState) =>
+  state.persons.filterStr;
 
 export const selectCurentPage = (state: RootState) =>
   selectFilteredTotal(state) === 0 ? 0 :

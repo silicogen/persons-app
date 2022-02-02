@@ -5,23 +5,23 @@ import styles from './Persons.module.css';
 import {
     filter,
     selectFilterEnabled,
-    selectFilterStrIsNew,
-    selectFilteredTotal
+    selectFilteredTotal,
+    selectFilterStr
 } from './personsSlice'
 
 
 export const PersonsFilter: React.FC = () => {
     const dispatch = useDispatch();
-    const [filterStr, setFilterStr] = useState<string>("");
-    const filterStrIsNew = useAppSelector(selectFilterStrIsNew(filterStr));
+    const [tryFilterStr, setTryFilterStr] = useState<string>("");
+    const filterStr = useAppSelector(selectFilterStr);
     const filteredTotal = useAppSelector(selectFilteredTotal);
     const filterEnabled = useAppSelector(selectFilterEnabled);
     const search: React.FormEventHandler<HTMLFormElement> = e => {
         e.preventDefault();
-        dispatch(filter(filterStr))
+        dispatch(filter(tryFilterStr))
     };
-    const changeFilterStr: React.ChangeEventHandler<HTMLInputElement> = e =>
-        setFilterStr(e.currentTarget.value)
+    const changeTryFilterStr: React.ChangeEventHandler<HTMLInputElement> = e =>
+        setTryFilterStr(e.currentTarget.value)
 
     return <>
         <form
@@ -30,13 +30,13 @@ export const PersonsFilter: React.FC = () => {
         >
             <button
                 type="submit"
-                disabled={!filterStrIsNew}
+                disabled={tryFilterStr === filterStr}
             >Search</button>
             <input
                 type="text"
-                onChange={changeFilterStr}
+                onChange={changeTryFilterStr}
             />
-            <span>{filterEnabled && `found ${filteredTotal} persons`}</span>
+            <span>{filterEnabled && `found ${filteredTotal} persons containing '${filterStr}'`}</span>
         </form>
     </>
 
