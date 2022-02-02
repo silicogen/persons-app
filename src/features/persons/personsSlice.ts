@@ -9,7 +9,7 @@ import { RootState } from '../../app/store';
 import axios from 'axios';
 
 import { Person } from './person';
-import { Column } from './columns';
+import { Column, defaultComparier } from './columns';
 
 
 export const fetchPersons = createAsyncThunk(
@@ -21,7 +21,7 @@ export const fetchPersons = createAsyncThunk(
 );
 
 const personsAdapter = createEntityAdapter<Person>(
-  { selectId: p => p.id }
+  { selectId: p => p.id, sortComparer: defaultComparier }
 );
 
 const orderSymbols = {
@@ -51,6 +51,11 @@ export const personsSlice = createSlice({
           state.entities[a]!,
           state.entities[b]!
         );
+      const defaultCompareFn = (a: EntityId, b: EntityId) =>
+        defaultComparier(
+          state.entities[a]!,
+          state.entities[b]!
+        );
       const ids = state.ids;
       if (state.orderColumnId !== action.payload.id) {
         state.orderColumnId = action.payload.id;
@@ -65,10 +70,9 @@ export const personsSlice = createSlice({
         case "ascending":
           ids.sort((a, b) => -compareFn(a, b))
           state.order = "descending";
-
           break;
         default:
-          ids.sort(compareFn);
+          ids.sort(defaultCompareFn);
           state.order = "source";
       }
     }

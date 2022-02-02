@@ -11,11 +11,13 @@ export interface Columns {
     [key: string]: Column;
 }
 
+export const defaultComparier = (p1: Person, p2: Person) =>
+    p1.id - p2.id;
+
 export const columnsMap: Columns = {
     id: {
         id: "id",
-        compare: (p1: Person, p2: Person) =>
-            p1.id - p2.id,
+        compare: defaultComparier,
         title: "ID",
         value: (p: Person) => p.id.toString(),
     },
