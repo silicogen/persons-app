@@ -8,7 +8,7 @@ interface Props {
 
 export const PersonsTH: React.FC<Props> = (
     { column }) => {
-    const orderSymbol = useAppSelector(selectOrderSymbol);
+    const orderSymbol = useAppSelector(selectOrderSymbol(column.id));
     const dispatch = useDispatch();
     const orderClick: React.MouseEventHandler = () => {
         dispatch(sortByColumn(column))

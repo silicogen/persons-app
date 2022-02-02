@@ -30,14 +30,10 @@ const orderSymbols = {
   descending: "↑",
 }
 
-interface Order {
-  direction: keyof typeof orderSymbols;
-  columnId: string;
-}
-
 export interface PersonsAdditionalStateProps {
   status: 'idle' | 'loading' | 'failed';
   order: keyof typeof orderSymbols;
+  orderColumnId?: string;
 };
 
 const initialState = personsAdapter.getInitialState<PersonsAdditionalStateProps>({
@@ -56,6 +52,11 @@ export const personsSlice = createSlice({
           state.entities[b]!
         );
       const ids = state.ids;
+      if (state.orderColumnId !== action.payload.id) {
+        state.orderColumnId = action.payload.id;
+        state.order = "source";
+      }
+
       switch (state.order) {
         case "source":
           ids.sort(compareFn);
@@ -64,6 +65,7 @@ export const personsSlice = createSlice({
         case "ascending":
           ids.sort((a, b) => -compareFn(a, b))
           state.order = "descending";
+
           break;
         default:
           ids.sort(compareFn);
@@ -79,6 +81,7 @@ export const personsSlice = createSlice({
       .addCase(fetchPersons.fulfilled, (state, action) => {
         personsAdapter.setAll(state, action.payload);
         state.status = 'idle';
+        state.order = "source";
       })
   },
 });
@@ -91,8 +94,13 @@ export const personsSelectors = personsAdapter.getSelectors<RootState>(state => 
 
 export const selectTotal = personsSelectors.selectTotal;
 
-export const selectOrderSymbol = (state: RootState) =>
-  orderSymbols[state.persons.order]
+export const selectOrderSymbol = (columnId: string) =>
+  (state: RootState) => {
+    return state.persons.orderColumnId === columnId
+      && state.persons.order !== "source"
+      ?
+      orderSymbols[state.persons.order] : " "
+  }
 
 export const selectVisiblePersons = personsSelectors.selectAll;
 
