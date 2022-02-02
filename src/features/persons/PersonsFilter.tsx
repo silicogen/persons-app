@@ -20,6 +20,8 @@ export const PersonsFilter: React.FC = () => {
         e.preventDefault();
         dispatch(filter(filterStr))
     };
+    const changeFilterStr: React.ChangeEventHandler<HTMLInputElement> = e =>
+        setFilterStr(e.currentTarget.value)
 
     return <>
         <form
@@ -32,7 +34,7 @@ export const PersonsFilter: React.FC = () => {
             >Search</button>
             <input
                 type="text"
-                onChange={e => setFilterStr(e.currentTarget.value)}
+                onChange={changeFilterStr}
             />
             <span>{filterEnabled && `found ${filteredTotal} persons`}</span>
         </form>
