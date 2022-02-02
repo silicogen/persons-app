@@ -157,18 +157,21 @@ export const selectFilteredPersons = (state: RootState) => {
 export const selectFilteredTotal = (state: RootState) =>
   selectFilteredPersons(state).length;
 
+export const selectFilterEnabled = (state: RootState) =>
+  state.persons.filterStr.length > 0;
+
 export const selectPagesCount = (state: RootState) => {
   const count = selectFilteredTotal(state)
   return count === 0 ? 0 :
     Math.floor(count / 10) + 1;
 }
 
-export const selectFilterDisabled = (filterStr: string) =>
+export const selectFilterStrIsNew = (filterStr: string) =>
   (state: RootState) =>
-    state.persons.filterStr === filterStr;
+    state.persons.filterStr !== filterStr;
 
 export const selectCurentPage = (state: RootState) =>
-  selectTotal(state) === 0 ? 0 :
+  selectFilteredTotal(state) === 0 ? 0 :
     state.persons.pageIndex + 1;
 
 export const selectAllowPrevPage = (state: RootState) =>

@@ -13,7 +13,6 @@ import styles from './Persons.module.css';
 
 export const PersonsNav: React.FC = () => {
     const dispatch = useAppDispatch();
-    const count = useAppSelector(selectTotal);
     const curentPage = useAppSelector(selectCurentPage)
     const pagesCount = useAppSelector(selectPagesCount);
     const allowPrevPage = useAppSelector(selectAllowPrevPage);
