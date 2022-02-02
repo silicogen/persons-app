@@ -1,10 +1,8 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
-  fetchPersons,
+  fetchPersonsSmall,
+  fetchPersonsLarge
 } from './personsSlice';
-import {
-  smallUrl, largeUrl
-} from "./urls"
 import styles from './Persons.module.css';
 
 export function PersonsFetch() {
@@ -14,13 +12,13 @@ export function PersonsFetch() {
   return <>
     <div className={styles.row}>
       <button
-        onClick={() => dispatch(fetchPersons(smallUrl))}
+        onClick={() => dispatch(fetchPersonsSmall)}
       >
         Fetch small
       </button>
 
       <button
-        onClick={() => dispatch(fetchPersons(largeUrl))}
+        onClick={() => dispatch(fetchPersonsLarge)}
       >
         Fetch large
       </button>

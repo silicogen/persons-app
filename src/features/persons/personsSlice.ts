@@ -7,9 +7,9 @@ import {
 } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import axios from 'axios';
-
 import { Person } from './person';
 import { Column, defaultComparier } from './columns';
+import { largeUrl, smallUrl } from './urls';
 
 
 export const fetchPersons = createAsyncThunk(
@@ -19,10 +19,13 @@ export const fetchPersons = createAsyncThunk(
     return response.data;
   }
 );
+export const fetchPersonsSmall = fetchPersons(smallUrl);
+export const fetchPersonsLarge = fetchPersons(largeUrl);
 
-const personsAdapter = createEntityAdapter<Person>(
-  { selectId: p => p.id, sortComparer: defaultComparier }
-);
+const personsAdapter = createEntityAdapter<Person>({
+  selectId: p => p.id,
+  sortComparer: defaultComparier
+});
 
 const orderSymbols = {
   source: "",
@@ -80,6 +83,7 @@ export const personsSlice = createSlice({
       }
     }
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchPersons.pending, (state) => {
@@ -90,7 +94,7 @@ export const personsSlice = createSlice({
         state.status = 'idle';
         state.order = "source";
       })
-  },
+  }
 });
 
 export const {
