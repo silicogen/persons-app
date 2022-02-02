@@ -94,17 +94,16 @@ export const {
   sortByColumn
 } = personsSlice.actions;
 
-export const personsSelectors = personsAdapter.getSelectors<RootState>(state => state.persons)
+export const personsSelectors = personsAdapter
+  .getSelectors<RootState>(state => state.persons)
 
 export const selectTotal = personsSelectors.selectTotal;
 
 export const selectOrderSymbol = (columnId: string) =>
-  (state: RootState) => {
-    return state.persons.orderColumnId === columnId
+  (state: RootState) =>
+    state.persons.orderColumnId === columnId
       && state.persons.order !== "source"
-      ?
-      orderSymbols[state.persons.order] : " "
-  }
+      ? orderSymbols[state.persons.order] : "";
 
 export const selectVisiblePersons = personsSelectors.selectAll;
 
