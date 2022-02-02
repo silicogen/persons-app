@@ -16,10 +16,18 @@ export const PersonsFilter: React.FC = () => {
     const filterStrIsNew = useAppSelector(selectFilterStrIsNew(filterStr));
     const filteredTotal = useAppSelector(selectFilteredTotal);
     const filterEnabled = useAppSelector(selectFilterEnabled);
+    const search: React.FormEventHandler<HTMLFormElement> = e => {
+        e.preventDefault();
+        dispatch(filter(filterStr))
+    };
+
     return <>
-        <div className={styles.row}>
+        <form
+            className={styles.row}
+            onSubmit={search}
+        >
             <button
-                onClick={() => dispatch(filter(filterStr))}
+                type="submit"
                 disabled={!filterStrIsNew}
             >Search</button>
             <input
@@ -27,7 +35,7 @@ export const PersonsFilter: React.FC = () => {
                 onChange={e => setFilterStr(e.currentTarget.value)}
             />
             <span>{filterEnabled && `found ${filteredTotal} persons`}</span>
-        </div>
+        </form>
     </>
 
 
