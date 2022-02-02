@@ -56,7 +56,7 @@ export const personsSlice = createSlice({
           state.entities[a]!,
           state.entities[b]!
         );
-      const ids = state.ids;
+
       if (state.orderColumnId !== action.payload.id) {
         state.orderColumnId = action.payload.id;
         state.order = "source";
@@ -64,15 +64,15 @@ export const personsSlice = createSlice({
 
       switch (state.order) {
         case "source":
-          ids.sort(compareFn);
+          state.ids.sort(compareFn);
           state.order = "ascending";
           break;
         case "ascending":
-          ids.sort((a, b) => -compareFn(a, b))
+          state.ids.sort((a, b) => -compareFn(a, b))
           state.order = "descending";
           break;
         default:
-          ids.sort(defaultCompareFn);
+          state.ids.sort(defaultCompareFn);
           state.order = "source";
       }
     }
