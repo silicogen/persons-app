@@ -56,13 +56,10 @@ export const personsSlice = createSlice({
   initialState,
   reducers: {
     toggleSelect(state, action: PayloadAction<EntityId>) {
-      const id = action.payload;
-      if (state.selectedPersonId === undefined)
-        state.selectedPersonId = id;
-      else if (state.selectedPersonId === id)
-        state.selectedPersonId = undefined;
-      else
-        state.selectedPersonId = id;
+      state.selectedPersonId =
+        state.selectedPersonId === action.payload
+          ? undefined
+          : action.payload;
     },
     filter(state, action: PayloadAction<string>) {
       state.filterStr = action.payload;
