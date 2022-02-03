@@ -10,8 +10,6 @@ import axios from 'axios';
 import { Person } from './person';
 import { Column, defaultComparier, columnsMap } from './columns';
 import { largeUrl, smallUrl } from './urls';
-import { act } from '@testing-library/react';
-
 
 export const fetchPersons = createAsyncThunk(
   'persons/fetchPersons',
@@ -127,7 +125,8 @@ export const {
   sortByColumn,
   filter: setFilter,
   prevPage,
-  nextPage
+  nextPage,
+  toggleSelect
 } = personsSlice.actions;
 
 export const personsSelectors = personsAdapter
@@ -140,6 +139,10 @@ export const selectOrderSymbol = (columnId: string) =>
     state.persons.orderColumnId === columnId
       && state.persons.order !== "source"
       ? orderSymbols[state.persons.order] : "";
+
+export const selectIsSelectedPerson = (id: EntityId) =>
+  (state: RootState) =>
+    state.persons.selectedPersonId === id;
 
 export const selectVisiblePersons = (state: RootState) =>
   selectFilteredPersons(state)
