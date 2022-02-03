@@ -14,8 +14,7 @@ interface Props {
 export const PersonsTR: React.FC<Props> = ({ person }) => {
     const isSelectedPerson = useAppSelector(selectIsSelectedPerson(person.id));
     const dispatch = useAppDispatch();
-    return <tr
-        key={person.id}>
+    return <tr>
         {columns.map(c => <td
             onClick={() => { dispatch(toggleSelect(person.id)) }}
             key={c.id}

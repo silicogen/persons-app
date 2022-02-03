@@ -18,7 +18,7 @@ export const PersonsTable: React.FC = () => {
                 </tr>
             </thead>
             <tbody>
-                {persons.map(p => <PersonsTR person={p} />)}
+                {persons.map(p => <PersonsTR key={p.id} person={p} />)}
             </tbody>
         </table>
     </>
