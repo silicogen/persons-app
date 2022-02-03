@@ -11,7 +11,7 @@ export function PersonsFetch() {
   const status = useAppSelector(state => state.persons.status)
   const count = useAppSelector(selectTotal);
   const dispatch = useAppDispatch();
-  useEffect(() => { dispatch(fetchPersonsSmall) }, [])
+  useEffect(() => { dispatch(fetchPersonsSmall) }, [dispatch])
 
   return <>
     <div className={styles.row}>
