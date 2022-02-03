@@ -9,6 +9,7 @@ interface Props {
 export const PersonsTH: React.FC<Props> = (
     { column }) => {
     const orderSymbol = useAppSelector(selectOrderSymbol(column.id));
+    //код когда получаем dispatch а потом его используем в обработчике непохо бы обопзить, чтобы в компоненте мы не видели dispatch
     const dispatch = useDispatch();
     const orderClick: React.MouseEventHandler = () => {
         dispatch(sortByColumn(column))
