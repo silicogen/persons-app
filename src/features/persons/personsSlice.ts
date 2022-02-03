@@ -8,9 +8,8 @@ import {
 import { RootState } from '../../app/store';
 import axios from 'axios';
 import { Person } from './person';
-import { Column, defaultComparier, columnsMap } from './columns';
+import { defaultComparier, columnsMap } from './columns';
 import { largeUrl, smallUrl } from './urls';
-
 
 export const fetchPersons = createAsyncThunk(
   'persons/fetchPersons',
@@ -39,6 +38,7 @@ export interface PersonsAdditionalStateProps {
   orderColumnId?: string;
   pageIndex: number;
   filterStr: string;
+  selectedPersonId?: EntityId;
 };
 
 const initialState = personsAdapter
@@ -53,6 +53,12 @@ export const personsSlice = createSlice({
   name: 'persons',
   initialState,
   reducers: {
+    toggleSelect(state, action: PayloadAction<EntityId>) {
+      state.selectedPersonId =
+        state.selectedPersonId === action.payload
+          ? undefined
+          : action.payload;
+    },
     filter(state, action: PayloadAction<string>) {
       state.filterStr = action.payload;
       state.pageIndex = 0;
@@ -63,10 +69,10 @@ export const personsSlice = createSlice({
     nextPage(state) {
       state.pageIndex++;
     },
-    sortByColumn(state, action: PayloadAction<Column>) {
+    sortByColumn(state, action: PayloadAction<string>) {
       if (state.ids.length === 0) return;
       const person = (id: EntityId) => state.entities[id]!;
-      const column = action.payload;
+      const column = columnsMap[action.payload];
 
       const compareAscending = (a: EntityId, b: EntityId) =>
         column.compare(person(a), person(b));
@@ -110,6 +116,7 @@ export const personsSlice = createSlice({
         state.status = 'idle';
         state.order = "source";
         state.pageIndex = 0;
+        state.selectedPersonId = undefined;
       })
   }
 });
@@ -119,7 +126,8 @@ export const {
   sortByColumn,
   filter: setFilter,
   prevPage,
-  nextPage
+  nextPage,
+  toggleSelect
 } = personsSlice.actions;
 
 export const personsSelectors = personsAdapter
@@ -134,6 +142,18 @@ export const selectOrderSymbol = (columnId: string) =>
     state.persons.orderColumnId === columnId
       && state.persons.order !== "source"
       ? orderSymbols[state.persons.order] : "";
+
+export const selectIsSelectedPerson = (id: EntityId) =>
+  (state: RootState) =>
+    state.persons.selectedPersonId === id;
+
+export const selectSelectedPerson = (state: RootState) =>
+  state.persons.selectedPersonId === undefined ? undefined :
+    personsSelectors.selectById(state, state.persons.selectedPersonId)
+  ;
+
+export const selectSelectedPersonId = (state: RootState) =>
+  state.persons.selectedPersonId;
 
 export const selectVisiblePersons = (state: RootState) =>
   selectFilteredPersons(state)

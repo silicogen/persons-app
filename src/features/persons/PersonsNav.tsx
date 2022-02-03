@@ -1,6 +1,5 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
-    selectTotal,
     selectPagesCount,
     prevPage,
     nextPage,

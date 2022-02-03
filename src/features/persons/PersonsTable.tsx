@@ -6,6 +6,7 @@ import {
 import { PersonsTH } from "./PersonsTH";
 import styles from "./Persons.module.css"
 import { columns } from "./columns";
+import { PersonsTR } from "./PersonsTR";
 
 export const PersonsTable: React.FC = () => {
     const persons = useAppSelector(selectVisiblePersons);
@@ -17,10 +18,7 @@ export const PersonsTable: React.FC = () => {
                 </tr>
             </thead>
             <tbody>
-                {persons.map(p => <tr
-                    key={p.id}>
-                    {columns.map(c => <td key={c.id}> {c.valueStr(p)}</td>)}
-                </tr>)}
+                {persons.map(p => <PersonsTR key={p.id} person={p} />)}
             </tbody>
         </table>
     </>

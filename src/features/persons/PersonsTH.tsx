@@ -12,7 +12,7 @@ export const PersonsTH: React.FC<Props> = (
     //код когда получаем dispatch а потом его используем в обработчике непохо бы обопзить, чтобы в компоненте мы не видели dispatch
     const dispatch = useDispatch();
     const orderClick: React.MouseEventHandler = () => {
-        dispatch(sortByColumn(column))
+        dispatch(sortByColumn(column.id))
     }
     return <th onClick={orderClick}>
         {`${column.title} ${orderSymbol}`}
