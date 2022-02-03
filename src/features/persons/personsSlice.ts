@@ -10,6 +10,7 @@ import axios from 'axios';
 import { Person } from './person';
 import { Column, defaultComparier, columnsMap } from './columns';
 import { largeUrl, smallUrl } from './urls';
+import { act } from '@testing-library/react';
 
 
 export const fetchPersons = createAsyncThunk(
@@ -39,6 +40,7 @@ export interface PersonsAdditionalStateProps {
   orderColumnId?: string;
   pageIndex: number;
   filterStr: string;
+  selectedPersonId?: EntityId;
 };
 
 const initialState = personsAdapter
@@ -53,6 +55,15 @@ export const personsSlice = createSlice({
   name: 'persons',
   initialState,
   reducers: {
+    toggleSelect(state, action: PayloadAction<EntityId>) {
+      const id = action.payload;
+      if (state.selectedPersonId === undefined)
+        state.selectedPersonId = id;
+      else if (state.selectedPersonId === id)
+        state.selectedPersonId = undefined;
+      else
+        state.selectedPersonId = id;
+    },
     filter(state, action: PayloadAction<string>) {
       state.filterStr = action.payload;
       state.pageIndex = 0;
