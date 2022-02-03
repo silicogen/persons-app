@@ -8,7 +8,7 @@ import {
 import { RootState } from '../../app/store';
 import axios from 'axios';
 import { Person } from './person';
-import { Column, defaultComparier, columnsMap, columns } from './columns';
+import { defaultComparier, columnsMap } from './columns';
 import { largeUrl, smallUrl } from './urls';
 
 export const fetchPersons = createAsyncThunk(
@@ -144,6 +144,14 @@ export const selectOrderSymbol = (columnId: string) =>
 export const selectIsSelectedPerson = (id: EntityId) =>
   (state: RootState) =>
     state.persons.selectedPersonId === id;
+
+export const selectSelectedPerson = (state: RootState) =>
+  state.persons.selectedPersonId === undefined ? undefined :
+    personsSelectors.selectById(state, state.persons.selectedPersonId)
+  ;
+
+export const selectSelectedPersonId = (state: RootState) =>
+  state.persons.selectedPersonId;
 
 export const selectVisiblePersons = (state: RootState) =>
   selectFilteredPersons(state)
