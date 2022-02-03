@@ -116,6 +116,7 @@ export const personsSlice = createSlice({
         state.status = 'idle';
         state.order = "source";
         state.pageIndex = 0;
+        state.selectedPersonId = undefined;
       })
   }
 });
