@@ -11,7 +11,7 @@ export const PersonsTH: React.FC<Props> = (
     const orderSymbol = useAppSelector(selectOrderSymbol(column.id));
     const dispatch = useDispatch();
     const orderClick: React.MouseEventHandler = () => {
-        dispatch(sortByColumn(column))
+        dispatch(sortByColumn(column.id))
     }
     return <th onClick={orderClick}>
         {`${column.title} ${orderSymbol}`}

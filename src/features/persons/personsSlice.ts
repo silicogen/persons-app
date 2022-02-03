@@ -8,7 +8,7 @@ import {
 import { RootState } from '../../app/store';
 import axios from 'axios';
 import { Person } from './person';
-import { Column, defaultComparier, columnsMap } from './columns';
+import { Column, defaultComparier, columnsMap, columns } from './columns';
 import { largeUrl, smallUrl } from './urls';
 
 export const fetchPersons = createAsyncThunk(
@@ -69,10 +69,10 @@ export const personsSlice = createSlice({
     nextPage(state) {
       state.pageIndex++;
     },
-    sortByColumn(state, action: PayloadAction<Column>) {
+    sortByColumn(state, action: PayloadAction<string>) {
       if (state.ids.length === 0) return;
       const person = (id: EntityId) => state.entities[id]!;
-      const column = action.payload;
+      const column = columnsMap[action.payload];
 
       const compareAscending = (a: EntityId, b: EntityId) =>
         column.compare(person(a), person(b));
