@@ -126,6 +126,8 @@ export const personsSelectors = personsAdapter
   .getSelectors<RootState>(state => state.persons)
 
 export const selectTotal = personsSelectors.selectTotal;
+//todo reselect нужно использовать для селекторов (везде)
+//так же обычно слекторы в одном файле хранятся все
 
 export const selectOrderSymbol = (columnId: string) =>
   (state: RootState) =>
