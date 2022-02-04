@@ -1,7 +1,6 @@
-import { useDispatch } from "react-redux"
 import { sortByColumn, selectOrderSymbol } from "./personsSlice"
 import { Column } from "./columns"
-import { useAppSelector } from "../../app/hooks";
+import { useActionProducer, useAppSelector } from "../../app/hooks";
 interface Props {
     column: Column;
 }
@@ -9,9 +8,10 @@ interface Props {
 export const PersonsTH: React.FC<Props> = (
     { column }) => {
     const orderSymbol = useAppSelector(selectOrderSymbol(column.id));
-    const dispatch = useDispatch();
+    const sortByColumnMemoized = useActionProducer(sortByColumn);
+    //код когда получаем dispatch а потом его используем в обработчике непохо бы обопзить, чтобы в компоненте мы не видели dispatch
     const orderClick: React.MouseEventHandler = () => {
-        dispatch(sortByColumn(column.id))
+        sortByColumnMemoized(column.id)
     }
     return <th onClick={orderClick}>
         {`${column.title} ${orderSymbol}`}
