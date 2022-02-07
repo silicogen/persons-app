@@ -20,7 +20,6 @@ export const PersonsNav: React.FC = () => {
     const onChangeItemsPerPage: React.ChangeEventHandler<HTMLSelectElement> =
         e => dispatch(setItemsPerPage(Number.parseInt(e.target.value)))
     return <>
-
         <div className={styles.row}>
             <button
                 onClick={() => dispatch(prevPage())}
@@ -38,7 +37,7 @@ export const PersonsNav: React.FC = () => {
             >
                 {options.map(o =>
                     <option value={o}>
-                        {`${o} items per page`}
+                        {`${o} persons per page`}
                     </option>)}
             </select>
         </div>
