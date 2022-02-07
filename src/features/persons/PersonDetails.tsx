@@ -18,9 +18,7 @@ export const PersonDetails: React.FC = () => {
             key="selectedPersonDiv"
         >
             Описание:
-            <textarea>
-                {person.description}
-            </textarea>
+            <textarea value={person.description}/>
             Адрес проживания:
             <b>{person.address.streetAddress}</b>
             Город: <b>{person.address.city}</b>
