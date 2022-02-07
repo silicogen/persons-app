@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import styles from './Persons.module.css';
 import {
     filter,
@@ -11,7 +10,7 @@ import {
 
 
 export const PersonsFilter: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [tryFilterStr, setTryFilterStr] = useState<string>("");
     const filterStr = useAppSelector(selectFilterStr);
     const filteredTotal = useAppSelector(selectFilteredTotal);
