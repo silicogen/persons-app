@@ -10,13 +10,12 @@ export const PersonDetails: React.FC = () => {
         return <div key="selectedPersonDiv">
         </div>;
     return <>
-        <div>
-            Выделенный субъект:
-        </div>
+
         <div
             className={styles.details}
             key="selectedPersonDiv"
         >
+            Выбран пользователь <b>{person.firstName} {person.lastName}</b>
             Описание:
             <textarea value={person.description}/>
             Адрес проживания:
