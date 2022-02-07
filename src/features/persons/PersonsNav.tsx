@@ -5,10 +5,11 @@ import {
     nextPage,
     selectAllowPrevPage,
     selectAllowNextPage,
-    selectCurentPage
+    selectCurentPage,
+    setItemsPerPage
 } from './personsSlice';
 import styles from './Persons.module.css';
-
+const options = [10, 20, 30, 40, 50];
 
 export const PersonsNav: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -16,6 +17,8 @@ export const PersonsNav: React.FC = () => {
     const pagesCount = useAppSelector(selectPagesCount);
     const allowPrevPage = useAppSelector(selectAllowPrevPage);
     const allowNextPage = useAppSelector(selectAllowNextPage);
+    const onChangeItemsPerPage: React.ChangeEventHandler<HTMLSelectElement> =
+        e => dispatch(setItemsPerPage(Number.parseInt(e.target.value)))
     return <>
 
         <div className={styles.row}>
@@ -30,6 +33,14 @@ export const PersonsNav: React.FC = () => {
                 onClick={() => dispatch(nextPage())}
                 disabled={!allowNextPage}
             >Next</button>
+            <select
+                onChange={onChangeItemsPerPage}
+            >
+                {options.map(o =>
+                    <option value={o}>
+                        {`${o} items per page`}
+                    </option>)}
+            </select>
         </div>
 
     </>

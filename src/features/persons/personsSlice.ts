@@ -37,6 +37,7 @@ export interface PersonsAdditionalStateProps {
   order: keyof typeof orderSymbols;
   orderColumnId?: string;
   pageIndex: number;
+  itemsPerPage: number;
   filterStr: string;
   selectedPersonId?: EntityId;
 };
@@ -46,6 +47,7 @@ const initialState = personsAdapter
     status: 'idle',
     order: "source",
     pageIndex: 0,
+    itemsPerPage: 10,
     filterStr: ""
   });
 
@@ -61,6 +63,10 @@ export const personsSlice = createSlice({
     },
     filter(state, action: PayloadAction<string>) {
       state.filterStr = action.payload;
+      state.pageIndex = 0;
+    },
+    setItemsPerPage(state, action: PayloadAction<number>) {
+      state.itemsPerPage = action.payload;
       state.pageIndex = 0;
     },
     prevPage(state) {
@@ -127,7 +133,8 @@ export const {
   filter: setFilter,
   prevPage,
   nextPage,
-  toggleSelect
+  toggleSelect,
+  setItemsPerPage
 } = personsSlice.actions;
 
 export const personsSelectors = personsAdapter
@@ -158,8 +165,8 @@ export const selectSelectedPersonId = (state: RootState) =>
 export const selectVisiblePersons = (state: RootState) =>
   selectFilteredPersons(state)
     .slice(
-      state.persons.pageIndex * 10,
-      (state.persons.pageIndex + 1) * 10
+      state.persons.pageIndex * state.persons.itemsPerPage,
+      (state.persons.pageIndex + 1) * state.persons.itemsPerPage
     );
 
 export const selectFilteredPersons = (state: RootState) => {
@@ -185,7 +192,7 @@ export const selectFilterEnabled = (state: RootState) =>
 export const selectPagesCount = (state: RootState) => {
   const count = selectFilteredTotal(state)
   return count === 0 ? 0 :
-    Math.floor(count / 10) + 1;
+    Math.floor(count / state.persons.itemsPerPage) + 1;
 }
 
 export const selectFilterStr = (state: RootState) =>
