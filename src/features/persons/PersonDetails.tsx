@@ -17,7 +17,7 @@ export const PersonDetails: React.FC = () => {
         >
             Выбран пользователь <b>{person.firstName} {person.lastName}</b>
             Описание:
-            <textarea value={person.description}/>
+            <textarea defaultValue={person.description} />
             Адрес проживания:
             <b>{person.address.streetAddress}</b>
             Город: <b>{person.address.city}</b>

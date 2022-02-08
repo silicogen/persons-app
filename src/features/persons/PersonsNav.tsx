@@ -36,7 +36,7 @@ export const PersonsNav: React.FC = () => {
                 onChange={onChangeItemsPerPage}
             >
                 {options.map(o =>
-                    <option value={o}>
+                    <option value={o} key={`${o}persons`}>
                         {`${o} persons per page`}
                     </option>)}
             </select>

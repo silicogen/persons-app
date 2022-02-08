@@ -40,6 +40,7 @@ export interface PersonsAdditionalStateProps {
   itemsPerPage: number;
   filterStr: string;
   selectedPersonId?: EntityId;
+  addPersonMode: boolean;
 };
 
 const initialState = personsAdapter
@@ -48,7 +49,8 @@ const initialState = personsAdapter
     order: "source",
     pageIndex: 0,
     itemsPerPage: 10,
-    filterStr: ""
+    filterStr: "",
+    addPersonMode: false
   });
 
 export const personsSlice = createSlice({
@@ -68,6 +70,14 @@ export const personsSlice = createSlice({
     setItemsPerPage(state, action: PayloadAction<number>) {
       state.itemsPerPage = action.payload;
       state.pageIndex = 0;
+    },
+    toggleAddPersonsMode(state) {
+      state.addPersonMode = !state.addPersonMode;
+    },
+    addPerson(state, action: PayloadAction<Person>) {
+      personsAdapter.addOne(state, action.payload);
+      state.pageIndex = 0;
+      // state.addPersonMode = false
     },
     prevPage(state) {
       state.pageIndex--;
@@ -134,7 +144,9 @@ export const {
   prevPage,
   nextPage,
   toggleSelect,
-  setItemsPerPage
+  setItemsPerPage,
+  toggleAddPersonsMode,
+  addPerson
 } = personsSlice.actions;
 
 export const personsSelectors = personsAdapter
@@ -162,6 +174,9 @@ export const selectSelectedPerson = (state: RootState) =>
 export const selectSelectedPersonId = (state: RootState) =>
   state.persons.selectedPersonId;
 
+export const selectAddPersonMode = (state: RootState) =>
+  state.persons.addPersonMode;
+
 export const selectVisiblePersons = (state: RootState) =>
   selectFilteredPersons(state)
     .slice(
@@ -175,7 +190,7 @@ export const selectFilteredPersons = (state: RootState) => {
     .selectAll(state)
     .filter(i => Object.values(columnsMap)
       .filter(c => c
-        .valueStr(i)
+        .valueString(i)
         .toUpperCase()
         .includes(filter)
       )

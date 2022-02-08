@@ -3,7 +3,8 @@ import { Person } from "./person";
 export interface Column {
     id: string;
     compare: (p1: Person, p2: Person) => number;
-    valueStr: (p: Person) => string;
+    valueString: (p: Person) => string;
+    setValueByStr: (p: Person, s: string) => void;
     title: string;
 }
 
@@ -19,7 +20,10 @@ export const columnsMap: Columns = {
         id: "id",
         compare: defaultComparier,
         title: "ID",
-        valueStr: (p: Person) => p.id.toString(),
+        valueString: (p: Person) => p.id.toString(),
+        setValueByStr(p: Person, s: string) {
+            p.id = Number.parseInt(s);
+        }
     },
 
     firstName: {
@@ -27,7 +31,10 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.firstName.localeCompare(p2.firstName),
         title: "First name",
-        valueStr: (p: Person) => p.firstName,
+        valueString: (p: Person) => p.firstName,
+        setValueByStr(p: Person, s: string) {
+            p.firstName = s;
+        }
     },
 
     lastName: {
@@ -35,7 +42,10 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.lastName.localeCompare(p2.lastName),
         title: "Last name",
-        valueStr: (p: Person) => p.lastName,
+        valueString: (p: Person) => p.lastName,
+        setValueByStr(p: Person, s: string) {
+            p.lastName = s;
+        }
     },
 
     email: {
@@ -43,7 +53,10 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.email.localeCompare(p2.email),
         title: "Email",
-        valueStr: (p: Person) => p.email,
+        valueString: (p: Person) => p.email,
+        setValueByStr(p: Person, s: string) {
+            p.email = s;
+        }
     },
 
     phone: {
@@ -51,7 +64,10 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.phone.localeCompare(p2.phone),
         title: "Phone",
-        valueStr: (p: Person) => p.phone,
+        valueString: (p: Person) => p.phone,
+        setValueByStr(p: Person, s: string) {
+            p.phone = s;
+        }
     },
 
     streetAddress: {
@@ -59,7 +75,10 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.address.streetAddress.localeCompare(p2.address.streetAddress),
         title: "Street address",
-        valueStr: (p: Person) => p.address.streetAddress,
+        valueString: (p: Person) => p.address.streetAddress,
+        setValueByStr(p: Person, s: string) {
+            p.address.streetAddress = s;
+        }
     },
 
     city: {
@@ -67,7 +86,10 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.address.city.localeCompare(p2.address.city),
         title: "City",
-        valueStr: (p: Person) => p.address.city,
+        valueString: (p: Person) => p.address.city,
+        setValueByStr(p: Person, s: string) {
+            p.address.city = s;
+        }
     },
 
     state: {
@@ -75,15 +97,21 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.address.state.localeCompare(p2.address.state),
         title: "State",
-        valueStr: (p: Person) => p.address.state,
+        valueString: (p: Person) => p.address.state,
+        setValueByStr(p: Person, s: string) {
+            p.address.state = s;
+        }
     },
 
     zip: {
         id: "zip",
         compare: (p1: Person, p2: Person) =>
             p1.address.zip.localeCompare(p2.address.zip),
-        title: "Sip",
-        valueStr: (p: Person) => p.address.zip,
+        title: "Zip",
+        valueString: (p: Person) => p.address.zip,
+        setValueByStr(p: Person, s: string) {
+            p.address.zip = s;
+        }
     },
 
     description: {
@@ -91,7 +119,10 @@ export const columnsMap: Columns = {
         compare: (p1: Person, p2: Person) =>
             p1.description.localeCompare(p2.description),
         title: "Description",
-        valueStr: (p: Person) => p.description,
+        valueString: (p: Person) => p.description,
+        setValueByStr(p: Person, s: string) {
+            p.description = s;
+        }
     },
 }
 
