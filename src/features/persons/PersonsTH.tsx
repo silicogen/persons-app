@@ -1,18 +1,18 @@
-import { sortByColumn, selectOrderSymbol } from "./personsSlice"
-import { Column } from "./columns"
+import { sortByField, selectOrderSymbol } from "./personsSlice"
+import { Field } from "./fields"
 import { useActionProducer, useAppSelector } from "../../app/hooks";
 interface Props {
-    column: Column;
+    field: Field;
 }
 
 export const PersonsTH: React.FC<Props> = (
-    { column }) => {
-    const orderSymbol = useAppSelector(selectOrderSymbol(column.id));
-    const sortByColumnMemoized = useActionProducer(sortByColumn);
+    { field }) => {
+    const orderSymbol = useAppSelector(selectOrderSymbol(field.id));
+    const sortByFieldMemoized = useActionProducer(sortByField);
     const orderClick: React.MouseEventHandler = () => {
-        sortByColumnMemoized(column.id)
+        sortByFieldMemoized(field.id)
     }
     return <th onClick={orderClick}>
-        {`${column.title} ${orderSymbol}`}
+        {`${field.title} ${orderSymbol}`}
     </th>
 }

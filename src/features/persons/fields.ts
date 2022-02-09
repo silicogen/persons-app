@@ -1,6 +1,6 @@
 import { Person } from "./person";
 
-export interface Column {
+export interface Field {
     id: string;
     compare: (p1: Person, p2: Person) => number;
     valueString: (p: Person) => string;
@@ -8,14 +8,14 @@ export interface Column {
     title: string;
 }
 
-export interface Columns {
-    [key: string]: Column;
+export interface FieldsMap {
+    [key: string]: Field;
 }
 
 export const defaultComparier = (p1: Person, p2: Person) =>
     p1.id - p2.id;
 
-export const columnsMap: Columns = {
+export const fieldsMap: FieldsMap = {
     id: {
         id: "id",
         compare: defaultComparier,
@@ -126,4 +126,4 @@ export const columnsMap: Columns = {
     },
 }
 
-export const columns = Object.values(columnsMap);
+export const fields = Object.values(fieldsMap);

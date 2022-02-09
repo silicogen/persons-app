@@ -8,7 +8,7 @@ import {
 import { RootState } from '../../app/store';
 import axios from 'axios';
 import { Person } from './person';
-import { defaultComparier, columnsMap } from './columns';
+import { defaultComparier, fieldsMap } from './fields';
 import { largeUrl, smallUrl } from './urls';
 
 export const fetchPersons = createAsyncThunk(
@@ -35,7 +35,7 @@ const orderSymbols = {
 export interface PersonsAdditionalStateProps {
   status: 'idle' | 'loading' | 'failed';
   order: keyof typeof orderSymbols;
-  orderColumnId?: string;
+  orderFieldId?: string;
   pageIndex: number;
   itemsPerPage: number;
   filterStr: string;
@@ -85,13 +85,13 @@ export const personsSlice = createSlice({
     nextPage(state) {
       state.pageIndex++;
     },
-    sortByColumn(state, action: PayloadAction<string>) {
+    sortByField(state, action: PayloadAction<string>) {
       if (state.ids.length === 0) return;
       const person = (id: EntityId) => state.entities[id]!;
-      const column = columnsMap[action.payload];
+      const field = fieldsMap[action.payload];
 
       const compareAscending = (a: EntityId, b: EntityId) =>
-        column.compare(person(a), person(b));
+        field.compare(person(a), person(b));
 
       const compareDescending = (a: EntityId, b: EntityId) =>
         -compareAscending(a, b);
@@ -101,8 +101,8 @@ export const personsSlice = createSlice({
 
       state.pageIndex = 0;
 
-      if (state.orderColumnId !== column.id) {
-        state.orderColumnId = column.id;
+      if (state.orderFieldId !== field.id) {
+        state.orderFieldId = field.id;
         state.order = "source";
       }
 
@@ -139,7 +139,7 @@ export const personsSlice = createSlice({
 
 export const {
   filter,
-  sortByColumn,
+  sortByField,
   filter: setFilter,
   prevPage,
   nextPage,
@@ -156,9 +156,9 @@ export const selectTotal = personsSelectors.selectTotal;
 //todo reselect нужно использовать для селекторов (везде)
 //так же обычно слекторы в одном файле хранятся все
 
-export const selectOrderSymbol = (columnId: string) =>
+export const selectOrderSymbol = (fieldId: string) =>
   (state: RootState) =>
-    state.persons.orderColumnId === columnId
+    state.persons.orderFieldId === fieldId
       && state.persons.order !== "source"
       ? orderSymbols[state.persons.order] : "";
 
@@ -188,7 +188,7 @@ export const selectFilteredPersons = (state: RootState) => {
   const filter = state.persons.filterStr.toUpperCase();
   return personsSelectors
     .selectAll(state)
-    .filter(i => Object.values(columnsMap)
+    .filter(i => Object.values(fieldsMap)
       .filter(c => c
         .valueString(i)
         .toUpperCase()

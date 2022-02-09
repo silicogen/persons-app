@@ -4,7 +4,7 @@ import {
     selectIsSelectedPerson,
     toggleSelect
 } from "./personsSlice";
-import { columns } from "./columns";
+import { fields } from "./fields";
 import { Person } from "./person";
 
 interface Props {
@@ -15,7 +15,7 @@ export const PersonsTR: React.FC<Props> = ({ person }) => {
     const isSelectedPerson = useAppSelector(selectIsSelectedPerson(person.id));
     const dispatch = useAppDispatch();
     return <tr>
-        {columns.map(c => <td
+        {fields.map(c => <td
             onClick={() => { dispatch(toggleSelect(person.id)) }}
             key={c.id}
             style={isSelectedPerson ? { background: "lightgray" } : {}}

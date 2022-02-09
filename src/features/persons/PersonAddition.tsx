@@ -10,7 +10,7 @@ import {
 import styles from './Persons.module.css';
 import { getNewPersonToAdd } from "./person";
 import { useState } from "react";
-import { columns } from "./columns";
+import { fields } from "./fields";
 import { PersonFieldInput } from "./PersonFieldInput";
 
 export const PersonAddition: React.FC = () => {
@@ -39,7 +39,7 @@ export const PersonAddition: React.FC = () => {
                 className={styles.details}
                 style={addPersonMode ? {} : { display: "none" }}
             >
-                {columns.map(c => <PersonFieldInput
+                {fields.map(c => <PersonFieldInput
                     key={c.id}
                     person={person}
                     field={c}

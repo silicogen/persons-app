@@ -1,9 +1,9 @@
 import { clone, Person } from "./person";
-import { Column } from "./columns";
+import { Field } from "./fields";
 
 interface Props {
     person: Person,
-    field: Column,
+    field: Field,
     setPerson: (modifier: (person: Person) => Person) => void
 }
 
