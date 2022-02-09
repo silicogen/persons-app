@@ -18,25 +18,33 @@ export const PersonAddition: React.FC = () => {
     const addPersonMode = useAppSelector(selectAddPersonMode);
     const [person, setPerson] = useState(getNewPersonToAdd());
     return <>
-        <div className={styles.row}>
-            <button
-                onClick={() => dispatch(toggleAddPersonsMode())}
-            >{addPersonMode ? "Cancel" : "Add"}</button>
-            <button
-                style={addPersonMode ? {} : { display: "none" }}
-                onClick={() => dispatch(addPerson(person))}
-            >Apply</button>
-        </div>
+        <form onSubmit={e => e.preventDefault()}>
+            <div className={styles.row}>
+                <button
+                    onClick={() => dispatch(toggleAddPersonsMode())}
+                >{addPersonMode ? "Cancel" : "Add new Person"}</button>
 
-        <form
-            className={styles.details}
-            style={addPersonMode ? {} : { display: "none" }}
-        >
-            {columns.map(c => <PersonFieldInput
-                key={c.id}
-                person={person}
-                field={c}
-                setPerson={setPerson} />)};
+                <button
+                    style={addPersonMode ? {} : { display: "none" }}
+                    onClick={() => dispatch(addPerson(person))}
+                >Create new person and add to local store</button>
+
+                <span
+                    style={addPersonMode ? {} : { display: "none" }}
+                >Заполните поля</span>
+
+            </div>
+
+            <div
+                className={styles.details}
+                style={addPersonMode ? {} : { display: "none" }}
+            >
+                {columns.map(c => <PersonFieldInput
+                    key={c.id}
+                    person={person}
+                    field={c}
+                    setPerson={setPerson} />)}
+            </div>
         </form>
     </>
 }
