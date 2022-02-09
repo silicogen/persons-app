@@ -14,7 +14,7 @@ export interface Field {
     valueString: (p: Person) => string,
     setValueByStr: (p: Person, s: string) => void,
     title: string,
-    validate?: Validate
+    validate: Validate
 }
 
 export interface FieldsMap {
@@ -53,7 +53,7 @@ export const fieldsMap: FieldsMap = {
             p.firstName = s;
         },
         validate(person) {
-            return {error:"!!!"};
+            return {};
         },
     },
 
@@ -65,7 +65,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.lastName,
         setValueByStr(p: Person, s: string) {
             p.lastName = s;
-        }
+        },
+        validate(person) {
+            return {};
+        },
     },
 
     email: {
@@ -76,7 +79,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.email,
         setValueByStr(p: Person, s: string) {
             p.email = s;
-        }
+        },
+        validate(person) {
+            return {};
+        },
     },
 
     phone: {
@@ -87,7 +93,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.phone,
         setValueByStr(p: Person, s: string) {
             p.phone = s;
-        }
+        },
+        validate(person) {
+            return {};
+        },
     },
 
     streetAddress: {
@@ -98,7 +107,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.address.streetAddress,
         setValueByStr(p: Person, s: string) {
             p.address.streetAddress = s;
-        }
+        },
+        validate(person) {
+            return {};
+        },
     },
 
     city: {
@@ -109,7 +121,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.address.city,
         setValueByStr(p: Person, s: string) {
             p.address.city = s;
-        }
+        },
+        validate(person) {
+            return {};
+        },
     },
 
     state: {
@@ -120,7 +135,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.address.state,
         setValueByStr(p: Person, s: string) {
             p.address.state = s;
-        }
+        },
+        validate(person) {
+            return {};
+        },
     },
 
     zip: {
@@ -131,7 +149,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.address.zip,
         setValueByStr(p: Person, s: string) {
             p.address.zip = s;
-        }
+        },
+        validate(person) {
+            return {};
+        },
     },
 
     description: {
@@ -142,7 +163,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.description,
         setValueByStr(p: Person, s: string) {
             p.description = s;
-        }
+        },
+        validate(person) {
+            return {};
+        },
     },
 }
 
