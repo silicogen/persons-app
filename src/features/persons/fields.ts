@@ -1,11 +1,20 @@
 import { Person } from "./person";
 
 export interface Field {
-    id: string;
-    compare: (p1: Person, p2: Person) => number;
-    valueString: (p: Person) => string;
-    setValueByStr: (p: Person, s: string) => void;
-    title: string;
+    id: string,
+    compare: (p1: Person, p2: Person) => number,
+    valueString: (p: Person) => string,
+    setValueByStr: (p: Person, s: string) => void,
+    title: string,
+}
+
+export interface Field {
+    id: string,
+    compare: (p1: Person, p2: Person) => number,
+    valueString: (p: Person) => string,
+    setValueByStr: (p: Person, s: string) => void,
+    title: string,
+    validate?: Validate
 }
 
 export interface FieldsMap {
@@ -15,6 +24,10 @@ export interface FieldsMap {
 export const defaultComparier = (p1: Person, p2: Person) =>
     p1.id - p2.id;
 
+export interface Validate {
+    (person: Person): { error?: string, warning?: string }
+}
+
 export const fieldsMap: FieldsMap = {
     id: {
         id: "id",
@@ -23,7 +36,11 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.id.toString(),
         setValueByStr(p: Person, s: string) {
             p.id = Number.parseInt(s);
-        }
+        },
+        validate(person) {
+            return {};
+        },
+
     },
 
     firstName: {
@@ -34,7 +51,10 @@ export const fieldsMap: FieldsMap = {
         valueString: (p: Person) => p.firstName,
         setValueByStr(p: Person, s: string) {
             p.firstName = s;
-        }
+        },
+        validate(person) {
+            return {error:"!!!"};
+        },
     },
 
     lastName: {
