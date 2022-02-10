@@ -8,7 +8,7 @@ import {
     addPerson
 } from "./personsSlice";
 import styles from './Persons.module.css';
-import { getNewPersonToAdd } from "./person";
+import { getNewPersonToAdd, Person } from "./person";
 import { useState } from "react";
 import { fields } from "./fields";
 import { PersonFieldInput } from "./PersonFieldInput";
@@ -31,19 +31,20 @@ export const PersonAddition: React.FC = () => {
 
                 <span
                     style={addPersonMode ? {} : { display: "none" }}
-                >Заполните поля</span>
-
+                >All fields should be filled</span>
             </div>
 
             <div
-                className={styles.details}
-                style={addPersonMode ? {} : { display: "none" }}
+            // style={addPersonMode ? {} : { display: "none" }}
             >
-                {fields.map(c => <PersonFieldInput
-                    key={c.id}
-                    person={person}
-                    field={c}
-                    setPerson={setPerson} />)}
+                {fields
+                    .filter(f => f.id != "id")
+                    .map(c => <PersonFieldInput
+                        key={c.id}
+                        person={person}
+                        field={c}
+                        setPerson={setPerson}
+                    />)}
             </div>
         </form>
     </>

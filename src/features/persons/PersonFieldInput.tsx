@@ -1,5 +1,6 @@
 import { clone, Person } from "./person";
 import { Field } from "./fields";
+import styles from './Persons.module.css';
 
 interface Props {
     person: Person,
@@ -12,22 +13,36 @@ export const PersonFieldInput: React.FC<Props> = ({
     field,
     setPerson
 }) => {
-    return <>
+    const error = field.validate(person).error;
+    const onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
+        setPerson((p: Person) => {
+            const p1 = clone(p);
+            field.setValueByStr(p1, e.target.value);
+            return p1;
+        })
+    };
+
+    return <div
+        className={styles.recordField}
+    >
         <label
+            className={styles.recordFieldLabel}
         >{field.title}</label>
         {field.id === "description"
             ? <textarea
-                defaultValue={field.valueString(person)} />
-            : <input
+                className={styles.recordFieldInput}
                 defaultValue={field.valueString(person)}
-                onChange={ev => {
-                    setPerson((p: Person) => {
-                        const p1 = clone(p);
-                        field.setValueByStr(p1, ev.target.value);
-                        return p1;
-                    })
-                }}
+                onChange={onChange}
+            />
+            : <input
+                className={styles.recordFieldInput}
+                defaultValue={field.valueString(person)}
+                onChange={onChange}
             />
         }
-    </>
+        <label
+            style={error ? {} : { display: "none" }}
+            className={styles.recordFieldMessage}
+        >{error}</label>
+    </div>
 }

@@ -10,6 +10,8 @@ export interface Field {
 
 export interface FieldsMap {
     [key: string]: Field;
+
+
 }
 
 export const defaultComparier = (p1: Person, p2: Person) =>
@@ -20,7 +22,7 @@ export const fieldsMap: FieldsMap = {
         id: "id",
         compare: defaultComparier,
         title: "ID",
-        valueString: (p) => p.id.toString(),
+        valueString: p => p.id.toString(),
         setValueByStr(p, s) {
             p.id = Number.parseInt(s);
         },
@@ -32,11 +34,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.firstName.localeCompare(p2.firstName),
         title: "First name",
-        valueString: (p) => p.firstName,
+        valueString: p => p.firstName,
         setValueByStr(p, s) {
             p.firstName = s;
         },
-        validate: p => ({})
+        validate: p => /^[A-Z][a-z]+$/.test(p.firstName) ? {}
+            : { error: "Last name should have form 'Aaaa...'. For example 'John'" }
     },
 
     lastName: {
@@ -44,11 +47,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.lastName.localeCompare(p2.lastName),
         title: "Last name",
-        valueString: (p) => p.lastName,
+        valueString: p => p.lastName,
         setValueByStr(p, s) {
             p.lastName = s;
         },
-        validate: p => ({})
+        validate: p => /^[A-Z][a-z]+$/.test(p.lastName) ? {}
+            : { error: "Last name should have form 'Aaaa...'. For example 'Smith'" }
     },
 
     email: {
@@ -56,11 +60,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.email.localeCompare(p2.email),
         title: "Email",
-        valueString: (p) => p.email,
+        valueString: p => p.email,
         setValueByStr(p, s) {
             p.email = s;
         },
-        validate: p => ({})
+        validate: p => /^.+@.+\..+$/.test(p.email) ? {}
+            : { error: "Email should have form 'aaa@aaa.aaa'. For example 'john.smith@mail.ru'" }
     },
 
     phone: {
@@ -68,11 +73,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.phone.localeCompare(p2.phone),
         title: "Phone",
-        valueString: (p) => p.phone,
+        valueString: p => p.phone,
         setValueByStr(p, s) {
             p.phone = s;
         },
-        validate: p => ({})
+        validate: p => /^\(\d{3}\)\d{3}-\d{4}$/.test(p.phone) ? {}
+            : { error: "Phone should have form '(nnn)nnn-nnn'. For example '(123)456-7890'" }
     },
 
     streetAddress: {
@@ -80,11 +86,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.address.streetAddress.localeCompare(p2.address.streetAddress),
         title: "Street address",
-        valueString: (p) => p.address.streetAddress,
+        valueString: p => p.address.streetAddress,
         setValueByStr(p, s) {
             p.address.streetAddress = s;
         },
-        validate: p => ({})
+        validate: p => /^\d{4}/.test(p.address.streetAddress) ? {}
+            : { error: "Street address should have form 'nnnn Name of Street'. For example '5471 Elementum Dr'" }
     },
 
     city: {
@@ -92,11 +99,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.address.city.localeCompare(p2.address.city),
         title: "City",
-        valueString: (p) => p.address.city,
+        valueString: p => p.address.city,
         setValueByStr(p, s) {
             p.address.city = s;
         },
-        validate: p => ({})
+        validate: p => /^[A-Z][a-z]+$/.test(p.address.city) ? {}
+            : { error: "City should have form 'Aaaa...'. For example 'Moskow'" }
     },
 
     state: {
@@ -104,11 +112,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.address.state.localeCompare(p2.address.state),
         title: "State",
-        valueString: (p) => p.address.state,
+        valueString: p => p.address.state,
         setValueByStr(p, s) {
             p.address.state = s;
         },
-        validate: p => ({})
+        validate: p => /^[A-Z]{2}$/.test(p.address.state) ? {}
+            : { error: "State should have form 'AA'. For example 'MN'" }
     },
 
     zip: {
@@ -116,11 +125,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.address.zip.localeCompare(p2.address.zip),
         title: "Zip",
-        valueString: (p) => p.address.zip,
+        valueString: p => p.address.zip,
         setValueByStr(p, s) {
             p.address.zip = s;
         },
-        validate: p => ({})
+        validate: p => /^\d{5}$/.test(p.address.zip) ? {}
+            : { error: "zip should have form 'nnnnn'. For example '20548'" }
     },
 
     description: {
@@ -128,11 +138,12 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.description.localeCompare(p2.description),
         title: "Description",
-        valueString: (p) => p.description,
+        valueString: p => p.description,
         setValueByStr(p, s) {
             p.description = s;
         },
-        validate: p => ({})
+        validate: p => /^.{10,500}$/.test(p.description) ? {}
+            : { error: "Description could have any form but at least 10 and not more than 500 characters. For example 'in lacus augue ante placerat consequat vestibulum'" }
     },
 }
 
