@@ -8,7 +8,7 @@ import {
     addPerson
 } from "./personsSlice";
 import styles from './Persons.module.css';
-import { getNewPersonToAdd, Person } from "./person";
+import { getNewPersonToAdd } from "./person";
 import { useState } from "react";
 import { fields } from "./fields";
 import { PersonFieldInput } from "./PersonFieldInput";
@@ -25,7 +25,9 @@ export const PersonAddition: React.FC = () => {
                 >{addPersonMode ? "Cancel" : "Add new Person"}</button>
 
                 <button
+                    type="submit"
                     style={addPersonMode ? {} : { display: "none" }}
+                    disabled={true}
                     onClick={() => dispatch(addPerson(person))}
                 >Create new person and add to local store</button>
 
@@ -35,7 +37,7 @@ export const PersonAddition: React.FC = () => {
             </div>
 
             <div
-            // style={addPersonMode ? {} : { display: "none" }}
+                style={addPersonMode ? {} : { display: "none" }}
             >
                 {fields
                     .filter(f => f.id != "id")
