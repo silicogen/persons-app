@@ -1,20 +1,11 @@
 import { Person } from "./person";
-
 export interface Field {
     id: string,
     compare: (p1: Person, p2: Person) => number,
     valueString: (p: Person) => string,
     setValueByStr: (p: Person, s: string) => void,
     title: string,
-}
-
-export interface Field {
-    id: string,
-    compare: (p1: Person, p2: Person) => number,
-    valueString: (p: Person) => string,
-    setValueByStr: (p: Person, s: string) => void,
-    title: string,
-    validate: Validate
+    validate: (person: Person) => { error?: string, warning?: string }
 }
 
 export interface FieldsMap {
@@ -24,149 +15,124 @@ export interface FieldsMap {
 export const defaultComparier = (p1: Person, p2: Person) =>
     p1.id - p2.id;
 
-export interface Validate {
-    (person: Person): { error?: string, warning?: string }
-}
-
 export const fieldsMap: FieldsMap = {
     id: {
         id: "id",
         compare: defaultComparier,
         title: "ID",
-        valueString: (p: Person) => p.id.toString(),
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.id.toString(),
+        setValueByStr(p, s) {
             p.id = Number.parseInt(s);
         },
-        validate(person) {
-            return {};
-        },
-
+        validate: p => ({})
     },
 
     firstName: {
         id: "firstName",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.firstName.localeCompare(p2.firstName),
         title: "First name",
-        valueString: (p: Person) => p.firstName,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.firstName,
+        setValueByStr(p, s) {
             p.firstName = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 
     lastName: {
         id: "lastName",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.lastName.localeCompare(p2.lastName),
         title: "Last name",
-        valueString: (p: Person) => p.lastName,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.lastName,
+        setValueByStr(p, s) {
             p.lastName = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 
     email: {
         id: "email",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.email.localeCompare(p2.email),
         title: "Email",
-        valueString: (p: Person) => p.email,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.email,
+        setValueByStr(p, s) {
             p.email = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 
     phone: {
         id: "phone",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.phone.localeCompare(p2.phone),
         title: "Phone",
-        valueString: (p: Person) => p.phone,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.phone,
+        setValueByStr(p, s) {
             p.phone = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 
     streetAddress: {
         id: "streetAddress",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.address.streetAddress.localeCompare(p2.address.streetAddress),
         title: "Street address",
-        valueString: (p: Person) => p.address.streetAddress,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.address.streetAddress,
+        setValueByStr(p, s) {
             p.address.streetAddress = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 
     city: {
         id: "city",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.address.city.localeCompare(p2.address.city),
         title: "City",
-        valueString: (p: Person) => p.address.city,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.address.city,
+        setValueByStr(p, s) {
             p.address.city = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 
     state: {
         id: "state",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.address.state.localeCompare(p2.address.state),
         title: "State",
-        valueString: (p: Person) => p.address.state,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.address.state,
+        setValueByStr(p, s) {
             p.address.state = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 
     zip: {
         id: "zip",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.address.zip.localeCompare(p2.address.zip),
         title: "Zip",
-        valueString: (p: Person) => p.address.zip,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.address.zip,
+        setValueByStr(p, s) {
             p.address.zip = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 
     description: {
         id: "description",
-        compare: (p1: Person, p2: Person) =>
+        compare: (p1, p2) =>
             p1.description.localeCompare(p2.description),
         title: "Description",
-        valueString: (p: Person) => p.description,
-        setValueByStr(p: Person, s: string) {
+        valueString: (p) => p.description,
+        setValueByStr(p, s) {
             p.description = s;
         },
-        validate(person) {
-            return {};
-        },
+        validate: p => ({})
     },
 }
 
