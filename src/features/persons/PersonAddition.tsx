@@ -24,7 +24,11 @@ export const PersonAddition: React.FC = () => {
 		<form onSubmit={e => e.preventDefault()}>
 			<div className={styles.row}>
 				<button
-					onClick={() => dispatch(toggleAddPersonsMode())}
+					onClick={() => {
+						setPerson(getNewPersonToAdd());
+						dispatch(toggleAddPersonsMode());
+					}}
+
 				>{addPersonMode ? "Cancel" : "Add new Person"}</button>
 
 				<button

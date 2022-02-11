@@ -11,6 +11,9 @@ import { Person } from './person';
 import { defaultComparier, fieldsMap } from './fields';
 import { largeUrl, smallUrl } from './urls';
 
+let lastNewId = 0;
+const getNewId = () => --lastNewId;
+
 export const fetchPersons = createAsyncThunk(
   'persons/fetchPersons',
   async (url: string) => {
@@ -75,9 +78,11 @@ export const personsSlice = createSlice({
       state.addPersonMode = !state.addPersonMode;
     },
     addPerson(state, action: PayloadAction<Person>) {
-      personsAdapter.addOne(state, action.payload);
+      const person = action.payload;
+      person.id = getNewId();
+      personsAdapter.addOne(state, person);
       state.pageIndex = 0;
-      // state.addPersonMode = false
+      state.addPersonMode = false
     },
     prevPage(state) {
       state.pageIndex--;
