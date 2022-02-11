@@ -10,8 +10,6 @@ export interface Field {
 
 export interface FieldsMap {
     [key: string]: Field;
-
-
 }
 
 export const defaultComparier = (p1: Person, p2: Person) =>
