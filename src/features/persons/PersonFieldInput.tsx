@@ -31,12 +31,12 @@ export const PersonFieldInput: React.FC<Props> = ({
         {field.id === "description"
             ? <textarea
                 className={styles.recordFieldInput}
-                defaultValue={field.valueString(person)}
+                value={field.valueString(person)}
                 onChange={onChange}
             />
             : <input
                 className={styles.recordFieldInput}
-                defaultValue={field.valueString(person)}
+                value={field.valueString(person)}
                 onChange={onChange}
             />
         }
