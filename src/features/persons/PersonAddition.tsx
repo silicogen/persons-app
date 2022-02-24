@@ -47,7 +47,7 @@ export const PersonAddition: React.FC = () => {
 				style={addPersonMode ? {} : { display: "none" }}
 			>
 				{fields
-					.filter(f => f.id != "id")
+					.filter(f => f.id !== "id")
 					.map(c => <PersonFieldInput
 						key={c.id}
 						person={person}
