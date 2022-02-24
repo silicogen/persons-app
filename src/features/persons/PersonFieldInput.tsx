@@ -22,26 +22,24 @@ export const PersonFieldInput: React.FC<Props> = ({
             return p1;
         })
     };
+    const inputProps = {
+        id: field.id,
+        placeholder: field.valueString(ph),
+        className: styles.recordFieldInput,
+        value: field.valueString(person),
+        onChange: onChange,
+    }
 
     return <div
         className={styles.recordField}
     >
         <label
             className={styles.recordFieldLabel}
+            htmlFor={field.id}
         >{field.title}</label>
         {field.id === "description"
-            ? <textarea
-                placeholder={field.valueString(ph)}
-                className={styles.recordFieldInput}
-                value={field.valueString(person)}
-                onChange={onChange}
-            />
-            : <input
-                placeholder={field.valueString(ph)}
-                className={styles.recordFieldInput}
-                value={field.valueString(person)}
-                onChange={onChange}
-            />
+            ? <textarea {...inputProps} />
+            : <input {...inputProps} />
         }
         <label
             style={error ? {} : { display: "none" }}
