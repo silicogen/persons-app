@@ -1,6 +1,7 @@
 import { clone, Person } from "./person";
 import { Field } from "./fields";
 import styles from './Persons.module.css';
+import { testPersonToAdd as ph } from './person';
 
 interface Props {
     person: Person,
@@ -30,11 +31,13 @@ export const PersonFieldInput: React.FC<Props> = ({
         >{field.title}</label>
         {field.id === "description"
             ? <textarea
+                placeholder={field.valueString(ph)}
                 className={styles.recordFieldInput}
                 value={field.valueString(person)}
                 onChange={onChange}
             />
             : <input
+                placeholder={field.valueString(ph)}
                 className={styles.recordFieldInput}
                 value={field.valueString(person)}
                 onChange={onChange}

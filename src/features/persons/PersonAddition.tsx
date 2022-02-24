@@ -48,10 +48,10 @@ export const PersonAddition: React.FC = () => {
 			>
 				{fields
 					.filter(f => f.id !== "id")
-					.map(c => <PersonFieldInput
-						key={c.id}
+					.map(f => <PersonFieldInput
+						key={f.id}
 						person={person}
-						field={c}
+						field={f}
 						setPerson={setPerson}
 					/>)}
 			</div>

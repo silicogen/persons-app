@@ -37,7 +37,7 @@ export const fieldsMap: FieldsMap = {
             p.firstName = s;
         },
         validate: p => /^[A-Z][a-z]+$/.test(p.firstName) ? {}
-            : { error: "Last name should have form 'Aaaa...'. For example 'John'" }
+            : { error: "First name should have form 'Aaaa...'. For example 'John'" }
     },
 
     lastName: {

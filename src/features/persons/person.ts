@@ -55,4 +55,4 @@ export const clone = (person: Person): Person => ({
 })
 
 export const getNewPersonToAdd = (): Person =>
-    clone(testPersonToAdd);
+    clone(defaultPersonToAdd);
