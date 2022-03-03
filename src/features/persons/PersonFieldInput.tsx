@@ -6,57 +6,35 @@ import { useState } from "react";
 
 interface Props {
     person: Person,
-    field: Field,
-    setPerson: (modifier: (person: Person) => Person) => void
+    setPerson: (person: Person) => void,
+    field: Field
 }
 
 export const PersonFieldInput: React.FC<Props> = ({
     person,
-    field,
-    setPerson
+    setPerson,
+    field
 }) => {
-    const [isChanged, setChanged] = useState(false);
     const [eS, setES] = useState(0);
     let error = field.validate(person).error;
     const onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
-        setPerson((p: Person) => {
-            const p1 = clone(p);
-            field.setValueByStr(p1, e.target.value);
-            return p1;
-        })
-        error = field.validate(person).error;
-        // setChanged(true);
-        if (eS === 0) {
-            if (error) {
-                setES(1);
-            } else {
-                setES(2);
-            }
-        } else if (eS === 1) {
-            if (!error) {
-                setES(2);
-            }
-        } else if (eS === 2) {
-            if (error) {
-                setES(3);
-            }
+        const np = clone(person);
+        field.setValueByStr(np, e.target.value);
+        setPerson(np);
+        error = field.validate(np).error;
+        switch (eS) {
+            case 0: setES(error ? 1 : 2); break
+            case 1: error || setES(2); break
+            case 2: error && setES(3); break
         }
-
-
-
     };
-    const inputProps
-        : React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>
-        & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-        = {
+    const inputProps = {
         id: field.id,
         placeholder: field.valueString(ph),
         className: styles.recordFieldInput,
         value: field.valueString(person),
         onChange: onChange,
-        onBlur: () => {
-            setChanged(true)
-        }
+        onBlur: () => setES(3)
     }
 
     return <div
