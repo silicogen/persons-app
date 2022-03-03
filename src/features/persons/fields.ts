@@ -4,10 +4,9 @@ type Validate = (person: Person) => { error?: string, warning?: string };
 export interface Field {
     id: string,
     compare: (p1: Person, p2: Person) => number,
-    valueString: (p: Person) => string,
-    setValueByStr: (p: Person, s: string) => void,
+    getValueAsString: (p: Person) => string,
+    setValueByString: (p: Person, s: string) => void,
     title: string,
-    userFriendlyPattern?: string,
     validate: Validate
 }
 
@@ -19,8 +18,8 @@ export const defaultComparier = (p1: Person, p2: Person) => p1.id - p2.id;
 
 function getDefaultValidate(userFriendlyPattern: string, regExp: RegExp) {
     return function validate(this: Field, p: Person): ReturnType<Validate> {
-        return regExp.test(this.valueString(p)) ? {}
-            : { error: `${this.title} should have form '${userFriendlyPattern}'. For example '${this.valueString(testPersonToAdd)}'` };
+        return regExp.test(this.getValueAsString(p)) ? {}
+            : { error: `${this.title} should have form '${userFriendlyPattern}'. For example '${this.getValueAsString(testPersonToAdd)}'` };
     }
 }
 
@@ -29,8 +28,8 @@ export const fieldsMap: FieldsMap = {
         id: "id",
         compare: defaultComparier,
         title: "ID",
-        valueString: p => p.id.toString(),
-        setValueByStr(p, s) {
+        getValueAsString: p => p.id.toString(),
+        setValueByString(p, s) {
             p.id = Number.parseInt(s);
         },
         validate: p => ({})
@@ -41,8 +40,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.firstName.localeCompare(p2.firstName),
         title: "First name",
-        valueString: p => p.firstName,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.firstName,
+        setValueByString(p, s) {
             p.firstName = s;
         },
         validate: getDefaultValidate("Aaaa", /^[A-Z][a-z]+$/)
@@ -53,8 +52,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.lastName.localeCompare(p2.lastName),
         title: "Last name",
-        valueString: p => p.lastName,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.lastName,
+        setValueByString(p, s) {
             p.lastName = s;
         },
         validate: getDefaultValidate("Aaaa", /^[A-Z][a-z]+$/)
@@ -65,8 +64,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.email.localeCompare(p2.email),
         title: "Email",
-        valueString: p => p.email,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.email,
+        setValueByString(p, s) {
             p.email = s;
         },
         validate: getDefaultValidate("aaa@aaa.aaa", /^[A-Za-z0-9._]+@[A-Za-z0-9._]+\.[A-Za-z0-9._]+$/)
@@ -77,8 +76,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.phone.localeCompare(p2.phone),
         title: "Phone",
-        valueString: p => p.phone,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.phone,
+        setValueByString(p, s) {
             p.phone = s;
         },
         validate: getDefaultValidate("(nnn)nnn-nnn", /^\(\d{3}\)\d{3}-\d{4}$/)
@@ -88,8 +87,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.address.streetAddress.localeCompare(p2.address.streetAddress),
         title: "Street address",
-        valueString: p => p.address.streetAddress,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.address.streetAddress,
+        setValueByString(p, s) {
             p.address.streetAddress = s;
         },
         validate: getDefaultValidate("nnnn Name of Street", /^\d{4}/)
@@ -100,8 +99,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.address.city.localeCompare(p2.address.city),
         title: "City",
-        valueString: p => p.address.city,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.address.city,
+        setValueByString(p, s) {
             p.address.city = s;
         },
         validate: getDefaultValidate("Aaaa", /^[A-Z][a-z]+$/)
@@ -112,8 +111,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.address.state.localeCompare(p2.address.state),
         title: "State",
-        valueString: p => p.address.state,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.address.state,
+        setValueByString(p, s) {
             p.address.state = s;
         },
         validate: getDefaultValidate("AA", /^[A-Z]{2}$/)
@@ -124,8 +123,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.address.zip.localeCompare(p2.address.zip),
         title: "Zip",
-        valueString: p => p.address.zip,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.address.zip,
+        setValueByString(p, s) {
             p.address.zip = s;
         },
         validate: getDefaultValidate("nnnnn", /^\d{5}$/)
@@ -136,8 +135,8 @@ export const fieldsMap: FieldsMap = {
         compare: (p1, p2) =>
             p1.description.localeCompare(p2.description),
         title: "Description",
-        valueString: p => p.description,
-        setValueByStr(p, s) {
+        getValueAsString: p => p.description,
+        setValueByString(p, s) {
             p.description = s;
         },
         validate: p => /^.{10,500}$/.test(p.description) ? {}

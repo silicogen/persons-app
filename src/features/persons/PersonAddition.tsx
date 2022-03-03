@@ -18,7 +18,7 @@ export const PersonAddition: React.FC = () => {
 	const addPersonMode = useAppSelector(selectAddPersonMode);
 	const [person, setPerson] = useState(getNewPersonToAdd());
 	const wrongFilled = fields.some(f =>
-		f.valueString(person).length === 0
+		f.getValueAsString(person).length === 0
 		|| f.validate(person).error?.length);
 	return <>
 		<form onSubmit={e => e.preventDefault()}>

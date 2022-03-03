@@ -19,6 +19,6 @@ export const PersonsTR: React.FC<Props> = ({ person }) => {
             onClick={() => { dispatch(toggleSelect(person.id)) }}
             key={c.id}
             style={isSelectedPerson ? { background: "lightgray" } : {}}
-        > {c.valueString(person)}</td>)}
+        > {c.getValueAsString(person)}</td>)}
     </tr>
 }

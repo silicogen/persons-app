@@ -195,7 +195,7 @@ export const selectFilteredPersons = (state: RootState) => {
     .selectAll(state)
     .filter(i => Object.values(fieldsMap)
       .filter(c => c
-        .valueString(i)
+        .getValueAsString(i)
         .toUpperCase()
         .includes(filter)
       )

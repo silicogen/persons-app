@@ -19,7 +19,7 @@ export const PersonFieldInput: React.FC<Props> = ({
     let error = field.validate(person).error;
     const onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
         const np = clone(person);
-        field.setValueByStr(np, e.target.value);
+        field.setValueByString(np, e.target.value);
         setPerson(np);
         error = field.validate(np).error;
         switch (eS) {
@@ -30,9 +30,9 @@ export const PersonFieldInput: React.FC<Props> = ({
     };
     const inputProps = {
         id: field.id,
-        placeholder: field.valueString(ph),
+        placeholder: field.getValueAsString(ph),
         className: styles.recordFieldInput,
-        value: field.valueString(person),
+        value: field.getValueAsString(person),
         onChange: onChange,
         onBlur: () => setES(3)
     }
