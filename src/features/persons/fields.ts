@@ -62,7 +62,7 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.email = s;
         },
-        validate: p => /^.+@.+\..+$/.test(p.email) ? {}
+        validate: p => /^[A-Za-z0-9._]+@[A-Za-z0-9._]+\.[A-Za-z0-9._]+$/.test(p.email) ? {}
             : { error: "Email should have form 'aaa@aaa.aaa'. For example 'john.smith@mail.ru'" }
     },
 
