@@ -1,19 +1,28 @@
-import { Person } from "./person";
+import { Person, testPersonToAdd } from "./person";
+
+type Validate = (person: Person) => { error?: string, warning?: string };
 export interface Field {
     id: string,
     compare: (p1: Person, p2: Person) => number,
     valueString: (p: Person) => string,
     setValueByStr: (p: Person, s: string) => void,
     title: string,
-    validate: (person: Person) => { error?: string, warning?: string }
+    userFriendlyPattern?: string,
+    validate: Validate
 }
 
 export interface FieldsMap {
     [key: string]: Field;
 }
 
-export const defaultComparier = (p1: Person, p2: Person) =>
-    p1.id - p2.id;
+export const defaultComparier = (p1: Person, p2: Person) => p1.id - p2.id;
+
+function getDefaultValidate(userFriendlyPattern: string, regExp: RegExp) {
+    return function validate(this: Field, p: Person): ReturnType<Validate> {
+        return regExp.test(this.valueString(p)) ? {}
+            : { error: `${this.title} should have form '${userFriendlyPattern}'. For example '${this.valueString(testPersonToAdd)}'` };
+    }
+}
 
 export const fieldsMap: FieldsMap = {
     id: {
@@ -36,8 +45,7 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.firstName = s;
         },
-        validate: p => /^[A-Z][a-z]+$/.test(p.firstName) ? {}
-            : { error: "First name should have form 'Aaaa...'. For example 'John'" }
+        validate: getDefaultValidate("Aaaa", /^[A-Z][a-z]+$/)
     },
 
     lastName: {
@@ -49,8 +57,7 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.lastName = s;
         },
-        validate: p => /^[A-Z][a-z]+$/.test(p.lastName) ? {}
-            : { error: "Last name should have form 'Aaaa...'. For example 'Smith'" }
+        validate: getDefaultValidate("Aaaa", /^[A-Z][a-z]+$/)
     },
 
     email: {
@@ -62,8 +69,7 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.email = s;
         },
-        validate: p => /^[A-Za-z0-9._]+@[A-Za-z0-9._]+\.[A-Za-z0-9._]+$/.test(p.email) ? {}
-            : { error: "Email should have form 'aaa@aaa.aaa'. For example 'john.smith@mail.ru'" }
+        validate: getDefaultValidate("aaa@aaa.aaa", /^[A-Za-z0-9._]+@[A-Za-z0-9._]+\.[A-Za-z0-9._]+$/)
     },
 
     phone: {
@@ -75,10 +81,8 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.phone = s;
         },
-        validate: p => /^\(\d{3}\)\d{3}-\d{4}$/.test(p.phone) ? {}
-            : { error: "Phone should have form '(nnn)nnn-nnn'. For example '(123)456-7890'" }
+        validate: getDefaultValidate("(nnn)nnn-nnn", /^\(\d{3}\)\d{3}-\d{4}$/)
     },
-
     streetAddress: {
         id: "streetAddress",
         compare: (p1, p2) =>
@@ -88,8 +92,7 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.address.streetAddress = s;
         },
-        validate: p => /^\d{4}/.test(p.address.streetAddress) ? {}
-            : { error: "Street address should have form 'nnnn Name of Street'. For example '5471 Elementum Dr'" }
+        validate: getDefaultValidate("nnnn Name of Street", /^\d{4}/)
     },
 
     city: {
@@ -101,8 +104,7 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.address.city = s;
         },
-        validate: p => /^[A-Z][a-z]+$/.test(p.address.city) ? {}
-            : { error: "City should have form 'Aaaa...'. For example 'Moskow'" }
+        validate: getDefaultValidate("Aaaa", /^[A-Z][a-z]+$/)
     },
 
     state: {
@@ -114,8 +116,7 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.address.state = s;
         },
-        validate: p => /^[A-Z]{2}$/.test(p.address.state) ? {}
-            : { error: "State should have form 'AA'. For example 'MN'" }
+        validate: getDefaultValidate("AA", /^[A-Z]{2}$/)
     },
 
     zip: {
@@ -127,8 +128,7 @@ export const fieldsMap: FieldsMap = {
         setValueByStr(p, s) {
             p.address.zip = s;
         },
-        validate: p => /^\d{5}$/.test(p.address.zip) ? {}
-            : { error: "zip should have form 'nnnnn'. For example '20548'" }
+        validate: getDefaultValidate("nnnnn", /^\d{5}$/)
     },
 
     description: {
