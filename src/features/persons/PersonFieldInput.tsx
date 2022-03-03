@@ -15,15 +15,35 @@ export const PersonFieldInput: React.FC<Props> = ({
     field,
     setPerson
 }) => {
-    const [isChanged, setChanged] = useState(false)
-    const error = field.validate(person).error;
+    const [isChanged, setChanged] = useState(false);
+    const [eS, setES] = useState(0);
+    let error = field.validate(person).error;
     const onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
-        setChanged(true);
         setPerson((p: Person) => {
             const p1 = clone(p);
             field.setValueByStr(p1, e.target.value);
             return p1;
         })
+        error = field.validate(person).error;
+        // setChanged(true);
+        if (eS === 0) {
+            if (error) {
+                setES(1);
+            } else {
+                setES(2);
+            }
+        } else if (eS === 1) {
+            if (!error) {
+                setES(2);
+            }
+        } else if (eS === 2) {
+            if (error) {
+                setES(3);
+            }
+        }
+
+
+
     };
     const inputProps
         : React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>
@@ -34,8 +54,8 @@ export const PersonFieldInput: React.FC<Props> = ({
         className: styles.recordFieldInput,
         value: field.valueString(person),
         onChange: onChange,
-        onFocus: () => { 
-            
+        onBlur: () => {
+            setChanged(true)
         }
     }
 
@@ -51,7 +71,7 @@ export const PersonFieldInput: React.FC<Props> = ({
             : <input {...inputProps} />
         }
         <label
-            style={isChanged && error ? {} : { display: "none" }}
+            style={eS === 3 ? {} : { display: "none" }}
             className={styles.recordFieldMessage}
         >{error}</label>
     </div>
